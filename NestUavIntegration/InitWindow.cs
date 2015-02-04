@@ -23,6 +23,7 @@ namespace NestUavIntegration
         public InitWindow()
         {
             InitializeComponent();
+            //Just have the connection in the background for now.
             this.connection = new MavNetworkConnection();
             this.connection.PacketEventHandler += this.NewPacketReceived;
         }
@@ -32,18 +33,24 @@ namespace NestUavIntegration
         {
             string portStr = this.textBox1.Text;
             int portNo = Convert.ToInt32(portStr);
+            //Give it the port number we entered.
             this.connection.Connect(portNo);
+            //This starts the loop in the background.
             this.connection.BeginReceiveTask();
 
         }
 
         private void InitWindow_Load(object sender, EventArgs e)
         {
+            //This allocates a debugging console window to make things easier.
+            //Gives us the ease of user input with windows forms with the ease of output of console logging
+            //super ghetto tho
             AllocConsole();
         }
 
         private void NewPacketReceived(object sender, MavlinkPacket packet)
         {
+            //For now we just print out the type of message we received.
             Console.WriteLine(packet.Message.ToString());
         }
     }
