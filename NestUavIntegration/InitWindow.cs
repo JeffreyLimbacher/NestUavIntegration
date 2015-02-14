@@ -120,7 +120,7 @@ namespace NestUavIntegration
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void sendMessageButton_Click(object sender, EventArgs e)
+        private async void sendMessageButton_Click(object sender, EventArgs e)
         {
             //Gets the type that was selected
             Type type = (Type)typeSelect.SelectedItem;
@@ -138,6 +138,7 @@ namespace NestUavIntegration
                     //This converts the string to the type selected. This won't work for all the types.
                     field.SetValue(t, Convert.ChangeType(val, field.FieldType));
                 }
+                await connection.SendMessage((MavlinkMessage)t);
             }
             catch (Exception ex)
             {

@@ -17,7 +17,8 @@ namespace CommunicationsLayer
         private Mavlink mav;
         //The UdpClient is how we are going to receive messages from the SITL.
         private UdpClient connection;
-        private IPEndPoint connectionEndPoint;
+        private volatile IPEndPoint connectionEndPoint;
+        private volatile Boolean gotEndPoint;
 
         //This uses the event delegate defined in MavLink.cs. See that for parameter information (although it should be clear from the method below).
         //This simply gets the packets receives from the Mavlink.cs file and fires another event.
@@ -62,7 +63,8 @@ namespace CommunicationsLayer
         public MavNetworkConnection()
         {
             componentId = 0;
-
+            //Wait until we get it from the receive task.
+            this.gotEndPoint = false;
             this.mav = new Mavlink();
             this.mav.PacketReceived += this.PassOnNewPacket;
         }
@@ -91,6 +93,11 @@ namespace CommunicationsLayer
                     {
                         //Receie the connection
                         UdpReceiveResult receive = await this.connection.ReceiveAsync();
+                        if (!this.gotEndPoint)
+                        {
+                            this.connectionEndPoint = receive.RemoteEndPoint;
+                            this.gotEndPoint = true;
+                        }
                         mav.ParseBytes(receive.Buffer);
                     }
                 });
@@ -99,7 +106,7 @@ namespace CommunicationsLayer
         public async Task<int> SendMessage(MavlinkMessage msg)
         {
             byte[] bytes = mav.Serialize(msg, this.componentId, this.systemId);
-            int sent = await this.connection.SendAsync(bytes, bytes.Length);
+            int sent = await this.connection.SendAsync(bytes, bytes.Length, this.connectionEndPoint);
             return sent;
         }
 
