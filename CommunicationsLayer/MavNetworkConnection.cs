@@ -26,6 +26,8 @@ namespace CommunicationsLayer
         //This stores the thread that is listening in the background.
         public Task listeningTask;
 
+        
+
         //Leftover bool. Maybe can be used to kill the task.
         private bool shouldReceive;
         public bool ShouldReceive
@@ -33,9 +35,34 @@ namespace CommunicationsLayer
             get { return shouldReceive; }
             set { this.shouldReceive = value; }
         }
+        private int componentId;
+        public int ComponentId
+        {
+            get { return componentId; }
+            set
+            {
+                if (value >= Byte.MaxValue && value <= Byte.MaxValue)
+                {
+                    this.componentId = value;
+                }
+            }
+        }
+        private int systemId;
+        public int SystemId
+        {
+            get { return systemId; }
+            set { 
+                if(value >= Byte.MaxValue && value <= Byte.MaxValue)
+                {
+                    this.systemId = value; 
+                }
+            }
+        }
 
         public MavNetworkConnection()
         {
+            componentId = 0;
+
             this.mav = new Mavlink();
             this.mav.PacketReceived += this.PassOnNewPacket;
         }
@@ -67,6 +94,13 @@ namespace CommunicationsLayer
                         mav.ParseBytes(receive.Buffer);
                     }
                 });
+        }
+
+        public async Task<int> SendMessage(MavlinkMessage msg)
+        {
+            byte[] bytes = mav.Serialize(msg, this.componentId, this.systemId);
+            int sent = await this.connection.SendAsync(bytes, bytes.Length);
+            return sent;
         }
 
         //This just passes on packets.
