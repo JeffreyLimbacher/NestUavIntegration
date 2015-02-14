@@ -127,16 +127,24 @@ namespace NestUavIntegration
             FieldInfo[] fields = type.GetFields();
             //Activator instantiates an object of the type selected.
             object t = Activator.CreateInstance(type);
-            for(int i = 0; i < fields.Length; i++)
+            try
             {
-                //The second column is all the values, but they are string values.
-                TextBox tb = (TextBox)messageLayout.GetControlFromPosition(2, i);
-                string val = tb.Text;
-                FieldInfo field = fields[i];
-                //This converts the string to the type selected. This won't work for all the types.
-                field.SetValue(t, Convert.ChangeType(val, field.FieldType));
+                for (int i = 0; i < fields.Length; i++)
+                {
+                    //The second column is all the values, but they are string values.
+                    TextBox tb = (TextBox)messageLayout.GetControlFromPosition(2, i);
+                    string val = tb.Text;
+                    FieldInfo field = fields[i];
+                    //This converts the string to the type selected. This won't work for all the types.
+                    field.SetValue(t, Convert.ChangeType(val, field.FieldType));
+                }
             }
-
+            catch (Exception ex)
+            {
+                //TODO: Report out error in the GUI
+                //Report out error.
+                Console.WriteLine(ex);
+            }
         }
     }
 }
