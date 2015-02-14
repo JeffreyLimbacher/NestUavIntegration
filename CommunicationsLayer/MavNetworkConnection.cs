@@ -69,30 +69,6 @@ namespace CommunicationsLayer
                 });
         }
 
-        /****
-         * I don't like these two functions, I prefer the task.run method.
-        public void BeginReceive()
-        {
-            this.shouldReceive = true;
-            UdpState udpState = new UdpState();
-            udpState.e = this.connectionEndPoint;
-            udpState.u = this.connection;
-            this.connection.BeginReceive(new AsyncCallback(this.GotReceive), udpState);
-        }
-
-        public void GotReceive(IAsyncResult ar)
-        {
-            UdpState state = (UdpState)(ar.AsyncState);
-            IPEndPoint point = state.e;
-            UdpClient udp = state.u;
-            byte[] data = udp.EndReceive(ar, ref point);
-            mav.ParseBytes(data);
-            if(shouldReceive)
-            {
-                this.BeginReceive();
-            }
-        }*/
-
         //This just passes on packets.
         protected void PassOnNewPacket(object sender, MavlinkPacket packet)
         {
