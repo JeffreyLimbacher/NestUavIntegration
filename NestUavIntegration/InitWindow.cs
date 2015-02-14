@@ -57,6 +57,10 @@ namespace NestUavIntegration
             Console.WriteLine(packet.Message.ToString());
         }
 
+        /// <summary>
+        /// Get the Mavlink assembly (which is the CommunicationsLayer project) and list all the
+        /// types in the combobox.
+        /// </summary>
         private void fillTypeSelect()
         {
             Assembly mavAssem = Assembly.GetAssembly(typeof(Mavlink));
@@ -64,6 +68,13 @@ namespace NestUavIntegration
             typeSelect.Items.AddRange(types);
         }
 
+        /// <summary>
+        /// Populates hte table with labels and a textbox so users can input the values they
+        /// want in the message. Current, it's kind of just not working. It was before, not sure
+        /// what changed.
+        /// </summary>
+        /// <param name="sender">Probably the combobox</param>
+        /// <param name="e"></param>
         private void typeSelect_SelectedIndexChanged(object sender, EventArgs e)
         {
             Type type = (Type)typeSelect.SelectedItem;
@@ -76,38 +87,53 @@ namespace NestUavIntegration
                 TableLayoutPanelCellPosition pos = new TableLayoutPanelCellPosition();
                 pos.Row = i;
 
+                //The first column contains the names of the field
                 pos.Column = 0;
                 Label label = new Label();
                 label.Text = info.Name;
                 messageLayout.Controls.Add(label);
 
+                //The second column says what type the field is expecting.
                 pos.Column = 1;
                 Type typeOfField = info.FieldType;
                 label = new Label();
                 label.Text = typeOfField.ToString();
                 messageLayout.Controls.Add(label);
 
+                //Has the textboxes where the users can input the fields.
                 pos.Column = 2;
                 TextBox tb = new TextBox();
                 if(typeOfField.IsValueType)
                 {
+                    //Instantiate value types, not reference types.
                     tb.Text = Activator.CreateInstance(typeOfField).ToString();
+                    //For C# noobies, value types are passed in by value, wheras
+                    //reference types are passed in by reference. Like Java, int vs Object
                 }
                 messageLayout.Controls.Add(tb);
             }
             
         }
 
+        /// <summary>
+        /// Build the message from the information inputted in the table.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void sendMessageButton_Click(object sender, EventArgs e)
         {
+            //Gets the type that was selected
             Type type = (Type)typeSelect.SelectedItem;
             FieldInfo[] fields = type.GetFields();
+            //Activator instantiates an object of the type selected.
             object t = Activator.CreateInstance(type);
             for(int i = 0; i < fields.Length; i++)
             {
+                //The second column is all the values, but they are string values.
                 TextBox tb = (TextBox)messageLayout.GetControlFromPosition(2, i);
                 string val = tb.Text;
                 FieldInfo field = fields[i];
+                //This converts the string to the type selected. This won't work for all the types.
                 field.SetValue(t, Convert.ChangeType(val, field.FieldType));
             }
 
