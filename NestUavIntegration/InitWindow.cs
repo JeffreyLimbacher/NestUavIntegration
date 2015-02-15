@@ -30,14 +30,17 @@ namespace NestUavIntegration
         }
 
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Connect_Click(object sender, EventArgs e)
         {
             string portStr = this.textBox1.Text;
             int portNo = Convert.ToInt32(portStr);
             //Give it the port number we entered.
             this.socket.Connect(portNo);
+            infoBox.AppendText("Connected to UDP port " + portNo + "." + Environment.NewLine);
+
             //This starts the loop in the background.
             this.socket.BeginReceiveTask();
+            infoBox.AppendText("Receiving Data... " + Environment.NewLine);
 
         }
 
@@ -48,7 +51,7 @@ namespace NestUavIntegration
             //super ghetto tho
             AllocConsole();
 
-            this.fillTypeSelect();
+            this.FillTypeSelect();
         }
 
         private void NewPacketReceived(object sender, MavlinkPacket packet)
@@ -61,7 +64,7 @@ namespace NestUavIntegration
         /// Get the Mavlink assembly (which is the CommunicationsLayer project) and list all the
         /// types in the combobox.
         /// </summary>
-        private void fillTypeSelect()
+        private void FillTypeSelect()
         {
             Assembly mavAssem = Assembly.GetAssembly(typeof(Mavlink));
             Type[] types = mavAssem.GetTypes();
@@ -75,7 +78,7 @@ namespace NestUavIntegration
         /// </summary>
         /// <param name="sender">Probably the combobox</param>
         /// <param name="e"></param>
-        private void typeSelect_SelectedIndexChanged(object sender, EventArgs e)
+        private void TypeSelect_SelectedIndexChanged(object sender, EventArgs e)
         {
             Type type = (Type)typeSelect.SelectedItem;
             FieldInfo[] fields = type.GetFields();
@@ -120,7 +123,7 @@ namespace NestUavIntegration
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void sendMessageButton_Click(object sender, EventArgs e)
+        private async void SendMessageButton_Click(object sender, EventArgs e)
         {
             //Gets the type that was selected
             Type type = (Type)typeSelect.SelectedItem;
@@ -139,14 +142,24 @@ namespace NestUavIntegration
                     field.SetValue(t, Convert.ChangeType(val, field.FieldType));
                 }
                 await socket.SendMessage((MavlinkMessage)t);
+
+                //Inform user about successful message delivery
+                infoBox.AppendText("Message sent." + Environment.NewLine);
             }
             catch (Exception ex)
             {
                 //Report out error.
-                Console.WriteLine(ex);
+                //Console.WriteLine(ex);
                 MessageBox.Show("The following error occured while sending the message! Please try again:\n" + ex, "Error!", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //Output to user information box for user reference
+                infoBox.AppendText("Failed to send message! Error:" + Environment.NewLine + ex + Environment.NewLine);
             }
+        }
+
+        private void ClearInfoBox_Click(object sender, EventArgs e)
+        {
+            infoBox.Clear();
         }
     }
 }

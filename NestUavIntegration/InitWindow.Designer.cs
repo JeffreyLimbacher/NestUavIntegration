@@ -35,6 +35,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.messageLayout = new System.Windows.Forms.TableLayoutPanel();
             this.sendMessageButton = new System.Windows.Forms.Button();
+            this.infoBox = new System.Windows.Forms.TextBox();
+            this.clearInfoBox = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textBox1
@@ -62,7 +64,7 @@
             this.button1.TabIndex = 2;
             this.button1.Text = "Connect";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.Click += new System.EventHandler(this.Connect_Click);
             // 
             // typeSelect
             // 
@@ -71,7 +73,7 @@
             this.typeSelect.Name = "typeSelect";
             this.typeSelect.Size = new System.Drawing.Size(189, 21);
             this.typeSelect.TabIndex = 3;
-            this.typeSelect.SelectedIndexChanged += new System.EventHandler(this.typeSelect_SelectedIndexChanged);
+            this.typeSelect.SelectedIndexChanged += new System.EventHandler(this.TypeSelect_SelectedIndexChanged);
             // 
             // label2
             // 
@@ -99,7 +101,7 @@
             this.messageLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.messageLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.messageLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.messageLayout.Size = new System.Drawing.Size(323, 462);
+            this.messageLayout.Size = new System.Drawing.Size(321, 482);
             this.messageLayout.TabIndex = 5;
             // 
             // sendMessageButton
@@ -110,13 +112,35 @@
             this.sendMessageButton.TabIndex = 6;
             this.sendMessageButton.Text = "Send Message";
             this.sendMessageButton.UseVisualStyleBackColor = true;
-            this.sendMessageButton.Click += new System.EventHandler(this.sendMessageButton_Click);
+            this.sendMessageButton.Click += new System.EventHandler(this.SendMessageButton_Click);
+            // 
+            // infoBox
+            // 
+            this.infoBox.BackColor = System.Drawing.SystemColors.Info;
+            this.infoBox.Location = new System.Drawing.Point(359, 13);
+            this.infoBox.Multiline = true;
+            this.infoBox.Name = "infoBox";
+            this.infoBox.ReadOnly = true;
+            this.infoBox.Size = new System.Drawing.Size(360, 549);
+            this.infoBox.TabIndex = 7;
+            // 
+            // clearInfoBox
+            // 
+            this.clearInfoBox.Location = new System.Drawing.Point(359, 568);
+            this.clearInfoBox.Name = "clearInfoBox";
+            this.clearInfoBox.Size = new System.Drawing.Size(360, 23);
+            this.clearInfoBox.TabIndex = 8;
+            this.clearInfoBox.Text = "Clear";
+            this.clearInfoBox.UseVisualStyleBackColor = true;
+            this.clearInfoBox.Click += new System.EventHandler(this.ClearInfoBox_Click);
             // 
             // InitWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(345, 583);
+            this.ClientSize = new System.Drawing.Size(731, 603);
+            this.Controls.Add(this.clearInfoBox);
+            this.Controls.Add(this.infoBox);
             this.Controls.Add(this.sendMessageButton);
             this.Controls.Add(this.messageLayout);
             this.Controls.Add(this.label2);
@@ -141,6 +165,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TableLayoutPanel messageLayout;
         private System.Windows.Forms.Button sendMessageButton;
+        private System.Windows.Forms.TextBox infoBox;
+        private System.Windows.Forms.Button clearInfoBox;
     }
 }
 
