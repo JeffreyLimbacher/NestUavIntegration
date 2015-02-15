@@ -16,7 +16,7 @@ namespace NestUavIntegration
 {
     public partial class InitWindow : Form
     {
-        private MavNetworkConnection connection;
+        private MavNetworkConnection socket;
 
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -25,8 +25,8 @@ namespace NestUavIntegration
         {
             InitializeComponent();
             //Just have the connection in the background for now.
-            this.connection = new MavNetworkConnection();
-            this.connection.PacketEventHandler += this.NewPacketReceived;
+            this.socket = new MavNetworkConnection();
+            this.socket.PacketEventHandler += this.NewPacketReceived;
         }
 
 
@@ -35,9 +35,9 @@ namespace NestUavIntegration
             string portStr = this.textBox1.Text;
             int portNo = Convert.ToInt32(portStr);
             //Give it the port number we entered.
-            this.connection.Connect(portNo);
+            this.socket.Connect(portNo);
             //This starts the loop in the background.
-            this.connection.BeginReceiveTask();
+            this.socket.BeginReceiveTask();
 
         }
 
@@ -138,13 +138,14 @@ namespace NestUavIntegration
                     //This converts the string to the type selected. This won't work for all the types.
                     field.SetValue(t, Convert.ChangeType(val, field.FieldType));
                 }
-                await connection.SendMessage((MavlinkMessage)t);
+                await socket.SendMessage((MavlinkMessage)t);
             }
             catch (Exception ex)
             {
-                //TODO: Report out error in the GUI
                 //Report out error.
                 Console.WriteLine(ex);
+                MessageBox.Show("The following error occured while sending the message! Please try again:\n" + ex, "Error!", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
