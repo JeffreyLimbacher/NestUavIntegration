@@ -99,7 +99,7 @@
             this.messageLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.messageLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.messageLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.messageLayout.Size = new System.Drawing.Size(546, 294);
+            this.messageLayout.Size = new System.Drawing.Size(323, 462);
             this.messageLayout.TabIndex = 5;
             // 
             // sendMessageButton
@@ -116,7 +116,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(691, 415);
+            this.ClientSize = new System.Drawing.Size(345, 583);
             this.Controls.Add(this.sendMessageButton);
             this.Controls.Add(this.messageLayout);
             this.Controls.Add(this.label2);
