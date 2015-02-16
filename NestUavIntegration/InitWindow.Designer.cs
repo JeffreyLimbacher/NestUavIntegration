@@ -31,12 +31,22 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
-            this.typeSelect = new System.Windows.Forms.ComboBox();
+            this.msgSelect = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.messageLayout = new System.Windows.Forms.TableLayoutPanel();
             this.sendMessageButton = new System.Windows.Forms.Button();
             this.infoBox = new System.Windows.Forms.TextBox();
             this.clearInfoBox = new System.Windows.Forms.Button();
+            this.altitudeBox = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.rollBox = new System.Windows.Forms.Label();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.pitchBox = new System.Windows.Forms.Label();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.yawBox = new System.Windows.Forms.Label();
+            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.flightInfo = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // textBox1
@@ -66,14 +76,14 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.Connect_Click);
             // 
-            // typeSelect
+            // msgSelect
             // 
-            this.typeSelect.FormattingEnabled = true;
-            this.typeSelect.Location = new System.Drawing.Point(16, 72);
-            this.typeSelect.Name = "typeSelect";
-            this.typeSelect.Size = new System.Drawing.Size(189, 21);
-            this.typeSelect.TabIndex = 3;
-            this.typeSelect.SelectedIndexChanged += new System.EventHandler(this.TypeSelect_SelectedIndexChanged);
+            this.msgSelect.FormattingEnabled = true;
+            this.msgSelect.Location = new System.Drawing.Point(16, 72);
+            this.msgSelect.Name = "msgSelect";
+            this.msgSelect.Size = new System.Drawing.Size(189, 21);
+            this.msgSelect.TabIndex = 3;
+            this.msgSelect.SelectedIndexChanged += new System.EventHandler(this.msgSelect_SelectedIndexChanged);
             // 
             // label2
             // 
@@ -117,7 +127,7 @@
             // infoBox
             // 
             this.infoBox.BackColor = System.Drawing.SystemColors.Info;
-            this.infoBox.Location = new System.Drawing.Point(359, 13);
+            this.infoBox.Location = new System.Drawing.Point(522, 12);
             this.infoBox.Multiline = true;
             this.infoBox.Name = "infoBox";
             this.infoBox.ReadOnly = true;
@@ -126,7 +136,7 @@
             // 
             // clearInfoBox
             // 
-            this.clearInfoBox.Location = new System.Drawing.Point(359, 568);
+            this.clearInfoBox.Location = new System.Drawing.Point(522, 567);
             this.clearInfoBox.Name = "clearInfoBox";
             this.clearInfoBox.Size = new System.Drawing.Size(360, 23);
             this.clearInfoBox.TabIndex = 8;
@@ -134,17 +144,119 @@
             this.clearInfoBox.UseVisualStyleBackColor = true;
             this.clearInfoBox.Click += new System.EventHandler(this.ClearInfoBox_Click);
             // 
+            // altitudeBox
+            // 
+            this.altitudeBox.BackColor = System.Drawing.SystemColors.Control;
+            this.altitudeBox.Location = new System.Drawing.Point(383, 109);
+            this.altitudeBox.Name = "altitudeBox";
+            this.altitudeBox.ReadOnly = true;
+            this.altitudeBox.Size = new System.Drawing.Size(100, 20);
+            this.altitudeBox.TabIndex = 9;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(415, 93);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(42, 13);
+            this.label3.TabIndex = 10;
+            this.label3.Text = "Altitude";
+            // 
+            // rollBox
+            // 
+            this.rollBox.AutoSize = true;
+            this.rollBox.Location = new System.Drawing.Point(421, 146);
+            this.rollBox.Name = "rollBox";
+            this.rollBox.Size = new System.Drawing.Size(25, 13);
+            this.rollBox.TabIndex = 12;
+            this.rollBox.Text = "Roll";
+            // 
+            // textBox2
+            // 
+            this.textBox2.BackColor = System.Drawing.SystemColors.Control;
+            this.textBox2.Location = new System.Drawing.Point(383, 162);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.ReadOnly = true;
+            this.textBox2.Size = new System.Drawing.Size(100, 20);
+            this.textBox2.TabIndex = 11;
+            // 
+            // pitchBox
+            // 
+            this.pitchBox.AutoSize = true;
+            this.pitchBox.Location = new System.Drawing.Point(421, 202);
+            this.pitchBox.Name = "pitchBox";
+            this.pitchBox.Size = new System.Drawing.Size(31, 13);
+            this.pitchBox.TabIndex = 14;
+            this.pitchBox.Text = "Pitch";
+            // 
+            // textBox3
+            // 
+            this.textBox3.BackColor = System.Drawing.SystemColors.Control;
+            this.textBox3.Location = new System.Drawing.Point(383, 218);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.ReadOnly = true;
+            this.textBox3.Size = new System.Drawing.Size(100, 20);
+            this.textBox3.TabIndex = 13;
+            // 
+            // yawBox
+            // 
+            this.yawBox.AutoSize = true;
+            this.yawBox.Location = new System.Drawing.Point(421, 259);
+            this.yawBox.Name = "yawBox";
+            this.yawBox.Size = new System.Drawing.Size(28, 13);
+            this.yawBox.TabIndex = 16;
+            this.yawBox.Text = "Yaw";
+            // 
+            // textBox4
+            // 
+            this.textBox4.BackColor = System.Drawing.SystemColors.Control;
+            this.textBox4.Location = new System.Drawing.Point(383, 275);
+            this.textBox4.Name = "textBox4";
+            this.textBox4.ReadOnly = true;
+            this.textBox4.Size = new System.Drawing.Size(100, 20);
+            this.textBox4.TabIndex = 15;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(0, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(35, 13);
+            this.label4.TabIndex = 17;
+            this.label4.Text = "label4";
+            // 
+            // flightInfo
+            // 
+            this.flightInfo.AutoSize = true;
+            this.flightInfo.BackColor = System.Drawing.SystemColors.Control;
+            this.flightInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.flightInfo.Location = new System.Drawing.Point(357, 18);
+            this.flightInfo.Name = "flightInfo";
+            this.flightInfo.Size = new System.Drawing.Size(147, 24);
+            this.flightInfo.TabIndex = 18;
+            this.flightInfo.Text = "Flight Infomation";
+            // 
             // InitWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(731, 603);
+            this.ClientSize = new System.Drawing.Size(894, 603);
+            this.Controls.Add(this.flightInfo);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.yawBox);
+            this.Controls.Add(this.textBox4);
+            this.Controls.Add(this.pitchBox);
+            this.Controls.Add(this.textBox3);
+            this.Controls.Add(this.rollBox);
+            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.altitudeBox);
             this.Controls.Add(this.clearInfoBox);
             this.Controls.Add(this.infoBox);
             this.Controls.Add(this.sendMessageButton);
             this.Controls.Add(this.messageLayout);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.typeSelect);
+            this.Controls.Add(this.msgSelect);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox1);
@@ -161,12 +273,22 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.ComboBox typeSelect;
+        private System.Windows.Forms.ComboBox msgSelect;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TableLayoutPanel messageLayout;
         private System.Windows.Forms.Button sendMessageButton;
         private System.Windows.Forms.TextBox infoBox;
         private System.Windows.Forms.Button clearInfoBox;
+        private System.Windows.Forms.TextBox altitudeBox;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label rollBox;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Label pitchBox;
+        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.Label yawBox;
+        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label flightInfo;
     }
 }
 

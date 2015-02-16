@@ -58,6 +58,39 @@ namespace NestUavIntegration
         {
             //For now we just print out the type of message we received.
             Console.WriteLine(packet.Message.ToString());
+
+            //Process message type and display info on GUI
+            //Using old code from QuadLink. 
+            //In Progress...
+           /* switch (msg.msgid)
+            {
+                case MAVLINK_MSG_ID_ATTITUDE:
+                    mavlink_msg_attitude_decode(&msg, &att);
+                    break;
+                case MAVLINK_MSG_ID_GLOBAL_POSITION_INT:
+                    setGlobalPosition(msg);
+                    break;
+                case MAVLINK_MSG_ID_HEARTBEAT:
+                    compid = msg.compid;
+                    mavlink_msg_heartbeat_decode(&msg, &hb);
+                    printf("hb base_mode: %d\n", hb.base_mode);
+                    break;
+                case MAVLINK_MSG_ID_SYS_STATUS:
+                    mavlink_msg_sys_status_decode(&msg, &qStatus);
+                    break;
+                case MAVLINK_MSG_ID_GPS_RAW_INT:
+                    mavlink_gps_raw_int_t gpsRaw;
+                    mavlink_msg_gps_raw_int_decode(&msg, &gpsRaw);
+                    //printf("lat:%d long:%d\n", gpsRaw.lat, gpsRaw.lon);
+                    break;
+                case MAVLINK_MSG_ID_MISSION_ACK:
+                    mavlink_mission_ack_t miss;
+                    mavlink_msg_mission_ack_decode(&msg, &miss);
+                    //Set ack to 1 if APM received the waypoint
+                    //if(miss.type == 1) ack = 1; //Not sure if 1 means received
+                    printf("type: %d\n", miss.type);
+                    break;
+            }*/
         }
 
         /// <summary>
@@ -68,19 +101,19 @@ namespace NestUavIntegration
         {
             Assembly mavAssem = Assembly.GetAssembly(typeof(Mavlink));
             Type[] types = mavAssem.GetTypes();
-            typeSelect.Items.AddRange(types);
+            msgSelect.Items.AddRange(types);
         }
 
         /// <summary>
-        /// Populates hte table with labels and a textbox so users can input the values they
-        /// want in the message. Current, it's kind of just not working. It was before, not sure
+        /// Populates the table with labels and a textbox so users can input the values they
+        /// want in the message. Currently, it's kind of just not working. It was before, not sure
         /// what changed.
         /// </summary>
         /// <param name="sender">Probably the combobox</param>
         /// <param name="e"></param>
-        private void TypeSelect_SelectedIndexChanged(object sender, EventArgs e)
+        private void msgSelect_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Type type = (Type)typeSelect.SelectedItem;
+            Type type = (Type)msgSelect.SelectedItem;
             FieldInfo[] fields = type.GetFields();
             messageLayout.Controls.Clear();
             messageLayout.RowCount = fields.Length;
@@ -126,7 +159,7 @@ namespace NestUavIntegration
         private async void SendMessageButton_Click(object sender, EventArgs e)
         {
             //Gets the type that was selected
-            Type type = (Type)typeSelect.SelectedItem;
+            Type type = (Type)msgSelect.SelectedItem;
             FieldInfo[] fields = type.GetFields();
             //Activator instantiates an object of the type selected.
             object t = Activator.CreateInstance(type);
@@ -149,10 +182,9 @@ namespace NestUavIntegration
             catch (Exception ex)
             {
                 //Report out error.
-                //Console.WriteLine(ex);
                 MessageBox.Show("The following error occured while sending the message! Please try again:\n" + ex, "Error!", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //Output to user information box for user reference
+                //Output error to user information box for user reference
                 infoBox.AppendText("Failed to send message! Error:" + Environment.NewLine + ex + Environment.NewLine);
             }
         }
