@@ -101,7 +101,15 @@ namespace NestUavIntegration
         {
             Assembly mavAssem = Assembly.GetAssembly(typeof(Mavlink));
             Type[] types = mavAssem.GetTypes();
-            msgSelect.Items.AddRange(types);
+            foreach(Type type in types) 
+            {
+                //Filter out non message types.
+                if (type.ToString().Contains("Msg_"))
+                {
+                    msgSelect.Items.Add(type);
+                }
+            }
+            
         }
 
         /// <summary>
