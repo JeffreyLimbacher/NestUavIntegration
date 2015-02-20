@@ -60,37 +60,7 @@ namespace NestUavIntegration
             Console.WriteLine(packet.Message.ToString());
 
             //Process message type and display info on GUI
-            //Using old code from QuadLink. 
-            //In Progress...
-           /* switch (msg.msgid)
-            {
-                case MAVLINK_MSG_ID_ATTITUDE:
-                    mavlink_msg_attitude_decode(&msg, &att);
-                    break;
-                case MAVLINK_MSG_ID_GLOBAL_POSITION_INT:
-                    setGlobalPosition(msg);
-                    break;
-                case MAVLINK_MSG_ID_HEARTBEAT:
-                    compid = msg.compid;
-                    mavlink_msg_heartbeat_decode(&msg, &hb);
-                    printf("hb base_mode: %d\n", hb.base_mode);
-                    break;
-                case MAVLINK_MSG_ID_SYS_STATUS:
-                    mavlink_msg_sys_status_decode(&msg, &qStatus);
-                    break;
-                case MAVLINK_MSG_ID_GPS_RAW_INT:
-                    mavlink_gps_raw_int_t gpsRaw;
-                    mavlink_msg_gps_raw_int_decode(&msg, &gpsRaw);
-                    //printf("lat:%d long:%d\n", gpsRaw.lat, gpsRaw.lon);
-                    break;
-                case MAVLINK_MSG_ID_MISSION_ACK:
-                    mavlink_mission_ack_t miss;
-                    mavlink_msg_mission_ack_decode(&msg, &miss);
-                    //Set ack to 1 if APM received the waypoint
-                    //if(miss.type == 1) ack = 1; //Not sure if 1 means received
-                    printf("type: %d\n", miss.type);
-                    break;
-            }*/
+            socket.processMsg(packet);
         }
 
         /// <summary>

@@ -27,8 +27,6 @@ namespace CommunicationsLayer
         //This stores the thread that is listening in the background.
         public Task listeningTask;
 
-        
-
         //Leftover bool. Maybe can be used to kill the task.
         private bool shouldReceive;
         public bool ShouldReceive
@@ -101,6 +99,21 @@ namespace CommunicationsLayer
                         mav.ParseBytes(receive.Buffer);
                     }
                 });
+        }
+
+        public void processMsg(MavlinkPacket packet) {
+            float roll, pitch, yaw;
+            MavlinkMessage msg = packet.Message;
+
+            string message = packet.Message.ToString();
+
+             switch (message)
+             {
+                 case "Msg_attitude":
+                     //roll = msg.Msg_attitude.roll;
+                     //UpdateAttitude(roll, pitch, yaw);
+                     break;
+             }
         }
 
         public async Task<int> SendMessage(MavlinkMessage msg)
