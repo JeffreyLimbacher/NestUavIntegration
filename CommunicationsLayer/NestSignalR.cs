@@ -5,15 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net;
 using Microsoft.AspNet.SignalR.Client;
+using NEST_App.Models;
 
 
 
 namespace CommunicationsLayer
 {
-    class NestSignalR
+    public class NestSignalR
     {
 
-        private string nestUrl;
         private IHubProxy vehicleHub;
 
         private static HubConnection hubConnection = null;
@@ -23,9 +23,11 @@ namespace CommunicationsLayer
         private NestSignalR(IHubProxy vehicleHub)
         {
             this.vehicleHub = vehicleHub;
-
             //TODO: connect listeners
-            
+            vehicleHub.On<FlightState>("flightStateUpdate", fs =>
+            {
+                Console.Out.WriteLine(fs.Id);
+            });
         }
 
         public static async Task<NestSignalR> getNestConnection(string url)
@@ -42,5 +44,6 @@ namespace CommunicationsLayer
             }
             return nestConn;
         }
+
     }
 }

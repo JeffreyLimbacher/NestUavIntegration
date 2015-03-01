@@ -27,10 +27,11 @@ namespace NestUavIntegration
             //Just have the connection in the background for now.
             this.socket = new MavNetworkConnection();
             this.socket.PacketEventHandler += this.NewPacketReceived;
+
         }
 
 
-        private void Connect_Click(object sender, EventArgs e)
+        private async void Connect_Click(object sender, EventArgs e)
         {
             string portStr = this.textBox1.Text;
             int portNo = Convert.ToInt32(portStr);
@@ -41,6 +42,8 @@ namespace NestUavIntegration
             //This starts the loop in the background.
             this.socket.BeginReceiveTask();
             infoBox.AppendText("Receiving Data... " + Environment.NewLine);
+
+            var nest = await NestSignalR.getNestConnection("http://localhost:53130");
 
         }
 
