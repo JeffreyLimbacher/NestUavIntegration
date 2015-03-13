@@ -17,6 +17,7 @@ namespace NestUavIntegration
     public partial class InitWindow : Form
     {
         private MavNetworkConnection socket;
+        private NestMavBridge bridge;
 
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -43,7 +44,9 @@ namespace NestUavIntegration
             this.socket.BeginReceiveTask();
             infoBox.AppendText("Receiving Data... " + Environment.NewLine);
 
-            var nest = await NestSignalR.getNestConnection("http://localhost:53130");
+            //var nest = await NestSignalR.getNestConnection("http://localhost:53130");
+
+            //this.bridge = new NestMavBridge(nest, this.socket);
 
         }
 

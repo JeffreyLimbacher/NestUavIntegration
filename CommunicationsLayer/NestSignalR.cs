@@ -30,6 +30,10 @@ namespace CommunicationsLayer
             });
         }
 
+        public void sendFlightState(FlightState fs){
+            this.vehicleHub.Invoke("PushFlightStateUpdate", fs);
+        }
+
         public static async Task<NestSignalR> getNestConnection(string url)
         {
             if (hubConnection == null)

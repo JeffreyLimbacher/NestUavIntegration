@@ -24,6 +24,11 @@ namespace CommunicationsLayer
         //This simply gets the packets receives from the Mavlink.cs file and fires another event.
         public PacketReceivedEventHandler PacketEventHandler;
 
+        public delegate void MavlinkMessageEventHandler<T>(object sender, T message);
+
+        public MavlinkMessageEventHandler<Msg_attitude> receivedAttitude;
+        public MavlinkMessageEventHandler<Msg_global_position_int> receivedGlobalPositionInt;
+
         //This stores the thread that is listening in the background.
         public Task listeningTask;
 
@@ -50,10 +55,11 @@ namespace CommunicationsLayer
         public int SystemId
         {
             get { return systemId; }
-            set { 
-                if(value >= Byte.MaxValue && value <= Byte.MaxValue)
+            set
+            {
+                if (value >= Byte.MaxValue && value <= Byte.MaxValue)
                 {
-                    this.systemId = value; 
+                    this.systemId = value;
                 }
             }
         }
@@ -80,7 +86,7 @@ namespace CommunicationsLayer
         public void BeginReceiveTask()
         {
             //We already have a task running, don't start a new one.
-            if(this.listeningTask != null)
+            if (this.listeningTask != null)
             {
                 return;
             }
@@ -101,19 +107,28 @@ namespace CommunicationsLayer
                 });
         }
 
-        public void processMsg(MavlinkPacket packet) {
+        public void processMsg(MavlinkPacket packet)
+        {
             float roll, pitch, yaw;
             MavlinkMessage msg = packet.Message;
 
             string message = packet.Message.ToString();
 
-             switch (message)
-             {
-                 case "Msg_attitude":
-                     //roll = msg.Msg_attitude.roll;
-                     //UpdateAttitude(roll, pitch, yaw);
-                     break;
-             }
+            switch (message)
+            {
+                case "MavLink.Msg_attitude":
+                    if (receivedAttitude != null)
+                    {
+                        receivedAttitude(this, (Msg_attitude)msg);
+                    }
+                    break;
+                case "MavLink.Msg_global_position_int":
+                    if (receivedGlobalPositionInt != null)
+                    {
+                        receivedGlobalPositionInt(this, (Msg_global_position_int)msg);
+                    }
+                    break;
+            }
         }
 
         public async Task<int> SendMessage(MavlinkMessage msg)
