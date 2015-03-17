@@ -9,6 +9,9 @@ using MavLink;
 
 namespace CommunicationsLayer
 {
+
+    public delegate void MavlinkMessageEventHandler<T>(object sender, T message);
+
     public class MavNetworkConnection
     {
         //TODO: Kill the thread when needed
@@ -24,7 +27,7 @@ namespace CommunicationsLayer
         //This simply gets the packets receives from the Mavlink.cs file and fires another event.
         public PacketReceivedEventHandler PacketEventHandler;
 
-        public delegate void MavlinkMessageEventHandler<T>(object sender, T message);
+        
 
         public MavlinkMessageEventHandler<Msg_attitude> receivedAttitude;
         public MavlinkMessageEventHandler<Msg_global_position_int> receivedGlobalPositionInt;
@@ -67,6 +70,7 @@ namespace CommunicationsLayer
         public MavNetworkConnection()
         {
             componentId = 0;
+            systemId = 0;
             //Wait until we get it from the receive task.
             this.gotEndPoint = false;
             this.mav = new Mavlink();
