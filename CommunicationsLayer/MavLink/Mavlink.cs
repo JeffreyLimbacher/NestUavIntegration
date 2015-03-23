@@ -62,7 +62,6 @@ namespace MavLink
        /// </summary>
        public void ParseBytes(byte[] newlyReceived)
        {
-           Console.WriteLine("Mavlink.cs");
            uint i = 0;
 
            // copy the old and new into a contiguous array

@@ -31,6 +31,7 @@ namespace CommunicationsLayer
 
         public MavlinkMessageEventHandler<Msg_attitude> receivedAttitude;
         public MavlinkMessageEventHandler<Msg_global_position_int> receivedGlobalPositionInt;
+        public MavlinkMessageEventHandler<Msg_command_ack> receivedAck;
 
         //This stores the thread that is listening in the background.
         public Task listeningTask;
@@ -130,6 +131,12 @@ namespace CommunicationsLayer
                     if (receivedGlobalPositionInt != null)
                     {
                         receivedGlobalPositionInt(this, (Msg_global_position_int)msg);
+                    }
+                    break;
+                case "Mavlink.Msg_command_ack":
+                    if(receivedAck != null)
+                    {
+                        receivedAck(this, (Msg_command_ack)msg);
                     }
                     break;
             }

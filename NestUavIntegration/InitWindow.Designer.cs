@@ -47,6 +47,7 @@
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.flightInfo = new System.Windows.Forms.Label();
+            this.armButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textBox1
@@ -79,7 +80,7 @@
             // msgSelect
             // 
             this.msgSelect.FormattingEnabled = true;
-            this.msgSelect.Location = new System.Drawing.Point(16, 72);
+            this.msgSelect.Location = new System.Drawing.Point(20, 109);
             this.msgSelect.Name = "msgSelect";
             this.msgSelect.Size = new System.Drawing.Size(189, 21);
             this.msgSelect.TabIndex = 3;
@@ -88,7 +89,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(16, 53);
+            this.label2.Location = new System.Drawing.Point(20, 90);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(143, 13);
             this.label2.TabIndex = 4;
@@ -100,7 +101,7 @@
             this.messageLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.messageLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.messageLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.messageLayout.Location = new System.Drawing.Point(16, 109);
+            this.messageLayout.Location = new System.Drawing.Point(20, 146);
             this.messageLayout.Name = "messageLayout";
             this.messageLayout.RowCount = 8;
             this.messageLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -116,7 +117,7 @@
             // 
             // sendMessageButton
             // 
-            this.sendMessageButton.Location = new System.Drawing.Point(212, 69);
+            this.sendMessageButton.Location = new System.Drawing.Point(216, 106);
             this.sendMessageButton.Name = "sendMessageButton";
             this.sendMessageButton.Size = new System.Drawing.Size(117, 23);
             this.sendMessageButton.TabIndex = 6;
@@ -236,11 +237,23 @@
             this.flightInfo.TabIndex = 18;
             this.flightInfo.Text = "Flight Infomation";
             // 
+            // armButton
+            // 
+            this.armButton.Enabled = false;
+            this.armButton.Location = new System.Drawing.Point(16, 49);
+            this.armButton.Name = "armButton";
+            this.armButton.Size = new System.Drawing.Size(75, 23);
+            this.armButton.TabIndex = 19;
+            this.armButton.Text = "Arm";
+            this.armButton.UseVisualStyleBackColor = true;
+            this.armButton.Click += new System.EventHandler(this.armButton_Click);
+            // 
             // InitWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(894, 603);
+            this.Controls.Add(this.armButton);
             this.Controls.Add(this.flightInfo);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.yawBox);
@@ -289,6 +302,7 @@
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label flightInfo;
+        private System.Windows.Forms.Button armButton;
     }
 }
 

@@ -48,6 +48,8 @@ namespace NestUavIntegration
 
             //this.bridge = new NestMavBridge(nest, this.socket);
 
+            this.armButton.Enabled = true;
+
         }
 
         private void InitWindow_Load(object sender, EventArgs e)
@@ -63,10 +65,7 @@ namespace NestUavIntegration
         private void NewPacketReceived(object sender, MavlinkPacket packet)
         {
             //For now we just print out the type of message we received.
-            Console.WriteLine(packet.Message.ToString());
-
-            //Process message type and display info on GUI
-            socket.processMsg(packet);
+            //Console.WriteLine(packet.Message.ToString());
         }
 
         /// <summary>
@@ -176,6 +175,27 @@ namespace NestUavIntegration
         private void ClearInfoBox_Click(object sender, EventArgs e)
         {
             infoBox.Clear();
+        }
+
+        private async void armButton_Click(object sender, EventArgs e)
+        {
+            var armCmd = new MavLink.Msg_command_long();
+            armCmd.command = (ushort)MAV_CMD.MAV_CMD_COMPONENT_ARM_DISARM;
+            armCmd.param1 = 1;
+
+            MavlinkMessageEventHandler<Msg_command_ack> handler = null;
+
+            handler = (s, ack) =>
+            {
+                Console.WriteLine("GOT RESULT!");
+                Console.WriteLine(ack.result);
+                this.socket.receivedAck -= handler;
+            };
+            this.socket.receivedAck += handler;
+
+            await this.socket.SendMessage(armCmd);
+
+
         }
     }
 }
