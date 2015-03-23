@@ -27,14 +27,24 @@ namespace CommunicationsLayer
         //This simply gets the packets receives from the Mavlink.cs file and fires another event.
         public PacketReceivedEventHandler PacketEventHandler;
 
-        
-
         public MavlinkMessageEventHandler<Msg_attitude> receivedAttitude;
         public MavlinkMessageEventHandler<Msg_global_position_int> receivedGlobalPositionInt;
         public MavlinkMessageEventHandler<Msg_command_ack> receivedAck;
 
+        public EventHandler receivedIpEndPoint;
+
         //This stores the thread that is listening in the background.
         public Task listeningTask;
+
+        enum Phase
+        {
+            NotConnected, //Haven't received anything yet.
+            Connecting, //Awaiting the param_list and heartbeats
+            NotArmed,
+            Arming,
+            Armed
+        }
+        private Phase currentPhase;
 
         //Leftover bool. Maybe can be used to kill the task.
         private bool shouldReceive;
@@ -107,9 +117,71 @@ namespace CommunicationsLayer
                             this.connectionEndPoint = receive.RemoteEndPoint;
                             this.gotEndPoint = true;
                         }
+                        if (this.receivedIpEndPoint != null)
+                        {
+
+                            this.receivedIpEndPoint(this, null);
+                            //Get rid of the events, aka only fire this once for people subscribed to it.
+                            this.receivedIpEndPoint = null;
+                            //This is in its own if statement because people might subscribe after we get the endpoint.
+                        }
                         mav.ParseBytes(receive.Buffer);
+
                     }
                 });
+        }
+
+        public async Task bookKeepingSend()
+        {
+            if (!this.gotEndPoint)
+            {
+                return;
+            }
+            switch (this.currentPhase)
+            {
+                case Phase.Armed:
+                case Phase.NotArmed:
+                    {
+                        await this.sendHeartbeat();
+                        break;
+                    }
+                case Phase.Connecting:
+                    {
+                        await this.sendHeartbeat();
+                        await this.sendParamRequestList();
+                        break;
+                    }
+                case Phase.NotConnected:
+                    {
+
+                        break;
+                    }
+                default:
+                    break;
+
+            }
+        }
+
+        public async Task sendHeartbeat()
+        {
+            Msg_heartbeat heartbeat = new Msg_heartbeat();
+            heartbeat.custom_mode = 0x00060800; //Stolen by packet sniffing Mission Planner's packets
+            //Rest are zero, which C# handles for us
+            await this.SendMessage(heartbeat);
+        }
+
+        private DateTime lastTimeSend = DateTime.Now;
+        public async Task sendParamRequestList()
+        {
+            DateTime currentTime = DateTime.Now;
+            if(lastTimeSend == null || (currentTime - lastTimeSend).Duration().TotalMilliseconds > 1000)
+            {
+                Msg_param_request_list list = new Msg_param_request_list();
+                list.target_component = 1;
+                list.target_system = 1;
+                await this.SendMessage(list);
+                lastTimeSend = DateTime.Now;
+            }
         }
 
         public void processMsg(MavlinkPacket packet)
@@ -134,10 +206,13 @@ namespace CommunicationsLayer
                     }
                     break;
                 case "Mavlink.Msg_command_ack":
-                    if(receivedAck != null)
+                    if (receivedAck != null)
                     {
                         receivedAck(this, (Msg_command_ack)msg);
                     }
+                    break;
+                case "Mavlink.param_value":
+                    this.currentPhase = Phase.NotArmed;
                     break;
             }
         }
@@ -153,7 +228,7 @@ namespace CommunicationsLayer
         protected void PassOnNewPacket(object sender, MavlinkPacket packet)
         {
             //Null checks to make sure that we actually have subscribing methods
-            if(PacketEventHandler != null)
+            if (PacketEventHandler != null)
             {
                 PacketEventHandler(this, packet);
             }

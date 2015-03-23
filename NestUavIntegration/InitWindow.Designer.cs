@@ -291,6 +291,7 @@
             this.armButton.TabIndex = 9;
             this.armButton.Text = "Arm!";
             this.armButton.UseVisualStyleBackColor = true;
+            this.armButton.Click += new System.EventHandler(this.armButton_Click);
             // 
             // InitWindow
             // 

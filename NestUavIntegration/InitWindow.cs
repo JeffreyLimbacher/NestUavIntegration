@@ -48,8 +48,22 @@ namespace NestUavIntegration
 
             //this.bridge = new NestMavBridge(nest, this.socket);
 
-            this.armButton.Enabled = true;
+            
 
+            this.socket.receivedIpEndPoint += this.ipEndPointReceived;
+            this.armButton.Enabled = true;
+        }
+
+        private async void ipEndPointReceived(object sender, EventArgs e)
+        {
+            Msg_request_data_stream req = new Msg_request_data_stream();
+            req.target_system = 1;
+            req.target_component = 1;
+            req.req_message_rate = 1;
+            req.start_stop = 1;
+            req.req_stream_id = (byte)MAV_DATA_STREAM.MAV_DATA_STREAM_ALL;
+
+            await this.socket.SendMessage(req);
         }
 
         private void InitWindow_Load(object sender, EventArgs e)
@@ -185,14 +199,16 @@ namespace NestUavIntegration
 
             MavlinkMessageEventHandler<Msg_command_ack> handler = null;
 
+            Console.WriteLine("Setting ack listener");
             handler = (s, ack) =>
             {
                 Console.WriteLine("GOT RESULT!");
                 Console.WriteLine(ack.result);
+                this.armButton.Enabled = true;
                 this.socket.receivedAck -= handler;
             };
             this.socket.receivedAck += handler;
-
+            this.armButton.Enabled = false;
             await this.socket.SendMessage(armCmd);
 
 
