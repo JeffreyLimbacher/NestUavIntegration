@@ -49,6 +49,7 @@
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.armButton = new System.Windows.Forms.Button();
             this.tabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -244,6 +245,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.armButton);
             this.tabPage1.Controls.Add(this.infoBox);
             this.tabPage1.Controls.Add(this.clearInfoBox);
             this.tabPage1.Controls.Add(this.label1);
@@ -279,6 +281,16 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Flight State";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // armButton
+            // 
+            this.armButton.Enabled = false;
+            this.armButton.Location = new System.Drawing.Point(289, 17);
+            this.armButton.Name = "armButton";
+            this.armButton.Size = new System.Drawing.Size(75, 23);
+            this.armButton.TabIndex = 9;
+            this.armButton.Text = "Arm!";
+            this.armButton.UseVisualStyleBackColor = true;
             // 
             // InitWindow
             // 
@@ -321,6 +333,7 @@
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.Button armButton;
     }
 }
 
