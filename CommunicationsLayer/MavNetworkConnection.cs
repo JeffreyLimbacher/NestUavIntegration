@@ -44,11 +44,22 @@ namespace CommunicationsLayer
             Arming,
             Armed
         }
+        /// <summary>
+        /// Used to store what phase the connection is in. Similar to a Finite State Automata, but just implemented really simply
+        /// DO NOT SET DIRECTLY! Unless you know why you are doing it that way and have a good reason.
+        /// </summary>
         private Phase _currentPhase;
+        /// <summary>
+        /// Readonly access to the current phase
+        /// </summary>
         public Phase CurrentPhase
         {
             get { return this._currentPhase; }
         }
+        /// <summary>
+        /// Private phase used to set the phase. This also emits out an event that the phase was changed, so this is the preferred way to
+        /// set the _currentPhase.
+        /// </summary>
         private Phase currentPhase
         {
             set
@@ -60,6 +71,11 @@ namespace CommunicationsLayer
                 this._currentPhase = value;
             }
         }
+        /// <summary>
+        /// Delegate that is called whenever the phase is changed.
+        /// </summary>
+        /// <param name="mav">The connection emitting out</param>
+        /// <param name="p">The new phase.</param>
         public delegate void PhaseChanged(MavNetworkConnection mav, Phase p);
         public PhaseChanged phaseChangedHandler;
 
@@ -168,7 +184,7 @@ namespace CommunicationsLayer
                 case Phase.Connecting:
                     {
                         await this.sendHeartbeat();
-                        await this.sendParamRequestList();
+                        //await this.sendParamRequestList();
                         break;
                     }
                 case Phase.NotConnected:
@@ -218,6 +234,7 @@ namespace CommunicationsLayer
 
             string message = packet.Message.ToString();
             Console.WriteLine(message);
+            this.currentPhase = Phase.NotArmed;
             switch (message)
             {
                 case "MavLink.Msg_attitude":
@@ -237,9 +254,6 @@ namespace CommunicationsLayer
                     {
                         receivedAck(this, (Msg_command_ack)msg);
                     }
-                    break;
-                case "Mavlink.param_value":
-                    this.currentPhase = Phase.NotArmed;
                     break;
             }
         }
@@ -266,6 +280,20 @@ namespace CommunicationsLayer
             {
                 PacketEventHandler(this, packet);
             }
+        }
+
+        public async Task<bool> ArmVehicle()
+        {
+            if (this._currentPhase == Phase.NotArmed)
+            {
+                var armCmd = new MavLink.Msg_command_long();
+                armCmd.command = (ushort)MAV_CMD.MAV_CMD_COMPONENT_ARM_DISARM;
+                armCmd.param1 = 1;
+
+                await this.SendMessage(armCmd);
+                return true;
+            }
+            return false;
         }
     }
 }

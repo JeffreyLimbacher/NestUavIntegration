@@ -193,25 +193,9 @@ namespace NestUavIntegration
 
         private async void armButton_Click(object sender, EventArgs e)
         {
-            var armCmd = new MavLink.Msg_command_long();
-            armCmd.command = (ushort)MAV_CMD.MAV_CMD_COMPONENT_ARM_DISARM;
-            armCmd.param1 = 1;
 
-            MavlinkMessageEventHandler<Msg_command_ack> handler = null;
-
-            Console.WriteLine("Setting ack listener");
-            handler = (s, ack) =>
-            {
-                Console.WriteLine("GOT RESULT!");
-                Console.WriteLine(ack.result);
-                this.armButton.Enabled = true;
-                this.socket.receivedAck -= handler;
-            };
-            this.socket.receivedAck += handler;
-            this.armButton.Enabled = false;
-            await this.socket.SendMessage(armCmd);
-
-
+            bool canSend = await this.socket.ArmVehicle();
+            //TODO: report error if cansend is false
         }
     }
 }
