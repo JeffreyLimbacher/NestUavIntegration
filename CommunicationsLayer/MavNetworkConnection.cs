@@ -36,7 +36,7 @@ namespace CommunicationsLayer
         //This stores the thread that is listening in the background.
         public Task listeningTask;
 
-        enum Phase
+        public enum Phase
         {
             NotConnected, //Haven't received anything yet.
             Connecting, //Awaiting the param_list and heartbeats
@@ -44,7 +44,24 @@ namespace CommunicationsLayer
             Arming,
             Armed
         }
-        private Phase currentPhase;
+        private Phase _currentPhase;
+        public Phase CurrentPhase
+        {
+            get { return this._currentPhase; }
+        }
+        private Phase currentPhase
+        {
+            set
+            {
+                if(this._currentPhase != value && phaseChangedHandler != null)
+                {
+                    phaseChangedHandler(this, value);
+                }
+                this._currentPhase = value;
+            }
+        }
+        public delegate void PhaseChanged(MavNetworkConnection mav, Phase p);
+        public PhaseChanged phaseChangedHandler;
 
         //Leftover bool. Maybe can be used to kill the task.
         private bool shouldReceive;
@@ -105,15 +122,17 @@ namespace CommunicationsLayer
             {
                 return;
             }
-            //Start the task. Async for whatever reason. Honestly, no point.
+            //Start the task.
             this.listeningTask = Task.Run(async () =>
                 {
                     while (true)
                     {
+                        await bookKeepingSend();
                         //Receie the connection
                         UdpReceiveResult receive = await this.connection.ReceiveAsync();
                         if (!this.gotEndPoint)
                         {
+                            this.currentPhase = Phase.Connecting;
                             this.connectionEndPoint = receive.RemoteEndPoint;
                             this.gotEndPoint = true;
                         }
@@ -137,7 +156,7 @@ namespace CommunicationsLayer
             {
                 return;
             }
-            switch (this.currentPhase)
+            switch (this._currentPhase)
             {
                 case Phase.Armed:
                 case Phase.NotArmed:
@@ -162,35 +181,42 @@ namespace CommunicationsLayer
             }
         }
 
+        private DateTime lastHeartbeatTime = DateTime.Now;
         public async Task sendHeartbeat()
         {
-            Msg_heartbeat heartbeat = new Msg_heartbeat();
-            heartbeat.custom_mode = 0x00060800; //Stolen by packet sniffing Mission Planner's packets
-            //Rest are zero, which C# handles for us
-            await this.SendMessage(heartbeat);
+            DateTime currentTime = DateTime.Now;
+            if ((currentTime - lastHeartbeatTime).Duration().TotalMilliseconds > 100)
+            {
+                Msg_heartbeat heartbeat = new Msg_heartbeat();
+                heartbeat.custom_mode = 0x00060800; //Stolen by packet sniffing Mission Planner's packets
+                //Rest are zero, which C# handles for us
+                await this.SendMessage(heartbeat);
+                lastHeartbeatTime = DateTime.Now;
+                Console.WriteLine("Heartbeat sent");
+            }
         }
 
-        private DateTime lastTimeSend = DateTime.Now;
+        private DateTime lastParamRequestTime = DateTime.Now;
         public async Task sendParamRequestList()
         {
             DateTime currentTime = DateTime.Now;
-            if(lastTimeSend == null || (currentTime - lastTimeSend).Duration().TotalMilliseconds > 1000)
+            if((currentTime - lastParamRequestTime).Duration().TotalMilliseconds > 1000)
             {
                 Msg_param_request_list list = new Msg_param_request_list();
                 list.target_component = 1;
                 list.target_system = 1;
                 await this.SendMessage(list);
-                lastTimeSend = DateTime.Now;
+                lastParamRequestTime = DateTime.Now;
+                Console.WriteLine("Param Request sent");
             }
         }
 
         public void processMsg(MavlinkPacket packet)
         {
-            float roll, pitch, yaw;
             MavlinkMessage msg = packet.Message;
 
             string message = packet.Message.ToString();
-
+            Console.WriteLine(message);
             switch (message)
             {
                 case "MavLink.Msg_attitude":
@@ -219,7 +245,13 @@ namespace CommunicationsLayer
 
         public async Task<int> SendMessage(MavlinkMessage msg)
         {
-            byte[] bytes = mav.Serialize(msg, this.componentId, this.systemId);
+            MavlinkPacket pack = new MavlinkPacket
+            {
+                Message = msg,
+                ComponentId = 0,
+                SystemId = 0
+            };
+            byte[] bytes = mav.Send(pack);
             int sent = await this.connection.SendAsync(bytes, bytes.Length, this.connectionEndPoint);
             return sent;
         }
@@ -227,6 +259,7 @@ namespace CommunicationsLayer
         //This just passes on packets.
         protected void PassOnNewPacket(object sender, MavlinkPacket packet)
         {
+            this.processMsg(packet);
             //Null checks to make sure that we actually have subscribing methods
             if (PacketEventHandler != null)
             {
