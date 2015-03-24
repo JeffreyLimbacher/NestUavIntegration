@@ -103,6 +103,7 @@ namespace CommunicationsLayer
             this.gotEndPoint = false;
             this.mav = new Mavlink();
             this.mav.PacketReceived += this.PassOnNewPacket;
+            this.currentPhase = Phase.NotConnected;
         }
 
         public void Connect(int port)
