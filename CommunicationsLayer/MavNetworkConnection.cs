@@ -209,7 +209,6 @@ namespace CommunicationsLayer
                 //Rest are zero, which C# handles for us
                 await this.SendMessage(heartbeat);
                 lastHeartbeatTime = DateTime.Now;
-                Console.WriteLine("Heartbeat sent");
             }
         }
 
@@ -224,7 +223,6 @@ namespace CommunicationsLayer
                 list.target_system = 1;
                 await this.SendMessage(list);
                 lastParamRequestTime = DateTime.Now;
-                Console.WriteLine("Param Request sent");
             }
         }
 
@@ -233,7 +231,6 @@ namespace CommunicationsLayer
             MavlinkMessage msg = packet.Message;
 
             string message = packet.Message.ToString();
-            Console.WriteLine(message);
             this.currentPhase = Phase.NotArmed;
             switch (message)
             {
