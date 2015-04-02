@@ -249,6 +249,8 @@ namespace CommunicationsLayer
                 case "Mavlink.Msg_command_ack":
                     if (receivedAck != null)
                     {
+                        var ack = (Msg_command_ack)msg;
+                        Console.WriteLine(ack.result);
                         receivedAck(this, (Msg_command_ack)msg);
                     }
                     break;
@@ -286,7 +288,7 @@ namespace CommunicationsLayer
                 var armCmd = new MavLink.Msg_command_long();
                 armCmd.command = (ushort)MAV_CMD.MAV_CMD_COMPONENT_ARM_DISARM;
                 armCmd.param1 = 1;
-
+                Console.WriteLine("Sending arming message...");
                 await this.SendMessage(armCmd);
                 return true;
             }

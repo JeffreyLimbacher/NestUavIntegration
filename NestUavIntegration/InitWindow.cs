@@ -44,9 +44,7 @@ namespace NestUavIntegration
             this.socket.BeginReceiveTask();
             infoBox.AppendText("Receiving Data... " + Environment.NewLine);
 
-            //var nest = await NestSignalR.getNestConnection("http://localhost:53130");
-
-            //this.bridge = new NestMavBridge(nest, this.socket);
+            
 
             
 
@@ -196,6 +194,16 @@ namespace NestUavIntegration
 
             bool canSend = await this.socket.ArmVehicle();
             //TODO: report error if cansend is false
+        }
+
+        private async void nestConnect_Click(object sender, EventArgs e)
+        {
+            var nest = await NestSignalR.getNestConnection("http://localhost:53130");
+
+            if (this.socket != null)
+            {
+                this.bridge = new NestMavBridge(nest, this.socket);
+            }
         }
     }
 }
