@@ -198,12 +198,14 @@ namespace NestUavIntegration
 
         private async void nestConnect_Click(object sender, EventArgs e)
         {
-            var nest = await NestSignalR.getNestConnection("http://localhost:53130");
+            this.nestConnect.Enabled = false;
+            NestSignalR nest = await NestSignalR.getNestConnection("http://localhost:53130");
 
             if (this.socket != null)
             {
                 this.bridge = new NestMavBridge(nest, this.socket);
             }
+
         }
     }
 }

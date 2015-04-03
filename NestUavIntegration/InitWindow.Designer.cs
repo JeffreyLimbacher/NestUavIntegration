@@ -51,9 +51,9 @@
             this.armButton = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.nestConnect = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
             this.nestUrlTextBox = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.nestConnect = new System.Windows.Forms.Button();
             this.tabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -264,7 +264,7 @@
             this.tabPage1.Controls.Add(this.msgSelect);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(885, 578);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Connection";
@@ -294,7 +294,7 @@
             this.tabPage2.Controls.Add(this.textBox3);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(885, 578);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Flight State";
@@ -312,15 +312,12 @@
             this.tabPage3.Text = "NEST";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // nestConnect
+            // nestUrlTextBox
             // 
-            this.nestConnect.Location = new System.Drawing.Point(237, 11);
-            this.nestConnect.Name = "nestConnect";
-            this.nestConnect.Size = new System.Drawing.Size(75, 23);
-            this.nestConnect.TabIndex = 0;
-            this.nestConnect.Text = "Connect";
-            this.nestConnect.UseVisualStyleBackColor = true;
-            this.nestConnect.Click += new System.EventHandler(this.nestConnect_Click);
+            this.nestUrlTextBox.Location = new System.Drawing.Point(73, 13);
+            this.nestUrlTextBox.Name = "nestUrlTextBox";
+            this.nestUrlTextBox.Size = new System.Drawing.Size(158, 20);
+            this.nestUrlTextBox.TabIndex = 2;
             // 
             // label4
             // 
@@ -331,12 +328,15 @@
             this.label4.TabIndex = 1;
             this.label4.Text = "NEST URL";
             // 
-            // nestUrlTextBox
+            // nestConnect
             // 
-            this.nestUrlTextBox.Location = new System.Drawing.Point(73, 13);
-            this.nestUrlTextBox.Name = "nestUrlTextBox";
-            this.nestUrlTextBox.Size = new System.Drawing.Size(158, 20);
-            this.nestUrlTextBox.TabIndex = 2;
+            this.nestConnect.Location = new System.Drawing.Point(237, 11);
+            this.nestConnect.Name = "nestConnect";
+            this.nestConnect.Size = new System.Drawing.Size(75, 23);
+            this.nestConnect.TabIndex = 0;
+            this.nestConnect.Text = "Connect";
+            this.nestConnect.UseVisualStyleBackColor = true;
+            this.nestConnect.Click += new System.EventHandler(this.nestConnect_Click);
             // 
             // InitWindow
             // 

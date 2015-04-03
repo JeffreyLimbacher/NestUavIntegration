@@ -46,6 +46,8 @@ namespace CommunicationsLayer
             {
                 await hubConnection.Start();
             }
+            //Join the vehicles group.
+            hubConnection.GroupsToken = "vehicles";
             return nestConn;
         }
 
