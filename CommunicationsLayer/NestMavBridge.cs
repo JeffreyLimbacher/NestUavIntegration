@@ -12,12 +12,12 @@ namespace CommunicationsLayer
     {
 
         private NestSignalR signalr;
-        private MavNetworkConnection mav;
+        private NetworkConnection mav;
 
         //Stores the latest message we have received.
         private IDictionary<string, object> mavMessageCache;
 
-        public NestMavBridge(NestSignalR signalr, MavNetworkConnection mav)
+        public NestMavBridge(NestSignalR signalr, NetworkConnection mav)
         {
             this.signalr = signalr;
             this.mav = mav;

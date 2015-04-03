@@ -16,7 +16,7 @@ namespace NestUavIntegration
 {
     public partial class InitWindow : Form
     {
-        private MavNetworkConnection socket;
+        private NetworkConnection socket;
         private NestMavBridge bridge;
 
         [DllImport("kernel32.dll", SetLastError = true)]
@@ -26,7 +26,7 @@ namespace NestUavIntegration
         {
             InitializeComponent();
             //Just have the connection in the background for now.
-            this.socket = new MavNetworkConnection();
+            this.socket = new NetworkConnection();
             this.socket.PacketEventHandler += this.NewPacketReceived;
 
         }

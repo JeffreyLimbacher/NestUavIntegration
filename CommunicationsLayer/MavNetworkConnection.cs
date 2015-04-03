@@ -12,7 +12,7 @@ namespace CommunicationsLayer
 
     public delegate void MavlinkMessageEventHandler<T>(object sender, T message);
 
-    public class MavNetworkConnection
+    public class NetworkConnection: IMavConnection
     {
         //TODO: Kill the thread when needed
         //TODO: Write out packets
@@ -76,7 +76,7 @@ namespace CommunicationsLayer
         /// </summary>
         /// <param name="mav">The connection emitting out</param>
         /// <param name="p">The new phase.</param>
-        public delegate void PhaseChanged(MavNetworkConnection mav, Phase p);
+        public delegate void PhaseChanged(NetworkConnection mav, Phase p);
         public PhaseChanged phaseChangedHandler;
 
         //Leftover bool. Maybe can be used to kill the task.
@@ -111,7 +111,7 @@ namespace CommunicationsLayer
             }
         }
 
-        public MavNetworkConnection()
+        public NetworkConnection()
         {
             componentId = 0;
             systemId = 0;
