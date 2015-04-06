@@ -7,16 +7,19 @@ using MavLink;
 
 namespace CommunicationsLayer
 {
+
+    enum Phase
+    {
+        NotConnected, //Haven't received anything yet.
+        Connecting, //Awaiting the param_list and heartbeats
+        NotArmed,
+        Arming,
+        Armed
+    }
+
     interface IMavConnection
     {
-        enum Phase
-        {
-            NotConnected, //Haven't received anything yet.
-            Connecting, //Awaiting the param_list and heartbeats
-            NotArmed,
-            Arming,
-            Armed
-        }
+        
 
         Phase CurrentPhase
         {
@@ -47,6 +50,6 @@ namespace CommunicationsLayer
         void returnToLaunch();
 
         //Send a specific message to the vehicle
-        async Task<int> SendMessage(MavlinkMessage msg);
+        Task<int> SendMessage(MavlinkMessage msg);
     }
 }

@@ -12,7 +12,7 @@ namespace CommunicationsLayer
 
     public delegate void MavlinkMessageEventHandler<T>(object sender, T message);
 
-    public class NetworkConnection: IMavConnection
+    public class NetworkConnection//: IMavConnection TODO
     {
         //TODO: Kill the thread when needed
         //TODO: Write out packets
