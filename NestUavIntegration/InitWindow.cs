@@ -19,6 +19,8 @@ namespace NestUavIntegration
         private NetworkConnection socket;
         private NestMavBridge bridge;
 
+        private NestManager nestManager;
+
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool AllocConsole();
@@ -201,11 +203,48 @@ namespace NestUavIntegration
             this.nestConnect.Enabled = false;
             NestSignalR nest = await NestSignalR.getNestConnection("http://localhost:53130");
 
+            
+
+            string url = this.nestUrlTextBox.Text;
+
+            this.nestManager = new NestManager(nest, url);
+
+            this.testButton.Enabled = true;
+            
             if (this.socket != null)
             {
-                this.bridge = new NestMavBridge(nest, this.socket);
+                this.bridge = new NestMavBridge(this.nestManager, this.socket);
             }
+        }
 
+        private void stateChanged(object sender, NestManager.NestStatus status)
+        {
+            switch(status)
+            {
+                case NestManager.NestStatus.NotConnected:
+                    this.nestConnect.Enabled = true;
+                    break;
+                case NestManager.NestStatus.NotLoggedIn:
+                case NestManager.NestStatus.Ready:
+                    this.nestConnect.Enabled = false;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private async void testButton_Click(object sender, EventArgs e)
+        {
+            this.nestManager.LoginToNest();
+            bool worked = await this.nestManager.RegisterVehicle("JEFF22");
+            if(worked)
+            {
+                Console.WriteLine("Test successful");
+            }
+            else
+            {
+                Console.WriteLine("Test unsuccessful");
+            }
         }
     }
 }

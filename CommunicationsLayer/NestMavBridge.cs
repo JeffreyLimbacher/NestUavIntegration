@@ -11,19 +11,24 @@ namespace CommunicationsLayer
     public class NestMavBridge
     {
 
-        private NestSignalR signalr;
+        private NestManager nest;
         private NetworkConnection mav;
+
+        private bool setFlightStateInDb;
 
         //Stores the latest message we have received.
         private IDictionary<string, object> mavMessageCache;
 
-        public NestMavBridge(NestSignalR signalr, NetworkConnection mav)
+        public NestMavBridge(NestManager nest, NetworkConnection mav)
         {
-            this.signalr = signalr;
+            this.nest = nest;
             this.mav = mav;
             this.mavMessageCache = new Dictionary<string, object>();
             this.subscribeToMavNetworkConnection();
 
+            this.setFlightStateInDb = false;
+
+            //TODO: Move this out 
             this.startSendTask();
         }
 
@@ -50,7 +55,7 @@ namespace CommunicationsLayer
                 {
                     Console.WriteLine("flight state being sent");
                     var gps = (Msg_global_position_int)this.mavMessageCache["MavLink.Msg_global_position_int"];
-
+                    
                     FlightState fs = new FlightState
                     {
                         //The Id = 1 is because NEST sucks
@@ -63,7 +68,15 @@ namespace CommunicationsLayer
                         Altitude = gps.alt / 1000.0,
                         Yaw = gps.hdg / 100.0
                     };
-                    this.signalr.sendFlightState(fs);
+                    if(!this.setFlightStateInDb)
+                    {
+                        
+                    }
+                    else
+                    {
+                        this.nest.sendFlightState(fs);
+                    }
+                    
                 }
             }
         }

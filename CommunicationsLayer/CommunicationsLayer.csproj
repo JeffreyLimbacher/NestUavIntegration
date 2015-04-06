@@ -46,7 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FlightState.cs" />
+    <Compile Include="Nest Models\FlightState.cs" />
     <Compile Include="MavConnection.cs" />
     <Compile Include="MavLink\ByteArrayUtil.cs" />
     <Compile Include="MavLink\FrameworkBitConverter.cs" />
@@ -58,6 +58,7 @@
     <Compile Include="NestMavBridge.cs" />
     <Compile Include="NestSignalR.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Nest Models\UAV.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

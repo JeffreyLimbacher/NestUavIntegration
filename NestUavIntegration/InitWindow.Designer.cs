@@ -54,6 +54,7 @@
             this.nestUrlTextBox = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.nestConnect = new System.Windows.Forms.Button();
+            this.testButton = new System.Windows.Forms.Button();
             this.tabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -302,6 +303,7 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.testButton);
             this.tabPage3.Controls.Add(this.nestUrlTextBox);
             this.tabPage3.Controls.Add(this.label4);
             this.tabPage3.Controls.Add(this.nestConnect);
@@ -318,6 +320,7 @@
             this.nestUrlTextBox.Name = "nestUrlTextBox";
             this.nestUrlTextBox.Size = new System.Drawing.Size(158, 20);
             this.nestUrlTextBox.TabIndex = 2;
+            this.nestUrlTextBox.Text = "http://localhost:53130";
             // 
             // label4
             // 
@@ -337,6 +340,17 @@
             this.nestConnect.Text = "Connect";
             this.nestConnect.UseVisualStyleBackColor = true;
             this.nestConnect.Click += new System.EventHandler(this.nestConnect_Click);
+            // 
+            // testButton
+            // 
+            this.testButton.Enabled = false;
+            this.testButton.Location = new System.Drawing.Point(9, 51);
+            this.testButton.Name = "testButton";
+            this.testButton.Size = new System.Drawing.Size(75, 23);
+            this.testButton.TabIndex = 3;
+            this.testButton.Text = "Test";
+            this.testButton.UseVisualStyleBackColor = true;
+            this.testButton.Click += new System.EventHandler(this.testButton_Click);
             // 
             // InitWindow
             // 
@@ -386,6 +400,7 @@
         private System.Windows.Forms.TextBox nestUrlTextBox;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button nestConnect;
+        private System.Windows.Forms.Button testButton;
     }
 }
 
