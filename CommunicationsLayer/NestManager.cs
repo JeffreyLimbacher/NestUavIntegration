@@ -123,6 +123,7 @@ namespace CommunicationsLayer
             }
             else
             {
+                this.setFlightStateDb = true;
                 HttpWebRequest req = this.buildDefaultRequest("/api/flightstate", "POST");
                 Stream stream = await req.GetRequestStreamAsync();
                 await writeToStream<FlightState>(fs, stream);

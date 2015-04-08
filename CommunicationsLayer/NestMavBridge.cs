@@ -35,6 +35,13 @@ namespace CommunicationsLayer
             this.mav.receivedGlobalPositionInt += this.mavlinkStoreGeneric;
         }
 
+        public void mavlinkStoreGlobalPositionInt(object sender, MavLink.Msg_global_position_int gpsInt)
+        {
+            this.mavlinkStoreGeneric<MavLink.Msg_global_position_int>(sender, gpsInt);
+            this.startSendTask();
+            Console.WriteLine("Started sending the flight state");
+        }
+
         public void mavlinkStoreGeneric<T>(object sender, T msg)
         {
             //the msg.toString should give the message time
@@ -51,7 +58,7 @@ namespace CommunicationsLayer
                 {
                     Console.WriteLine("flight state being sent");
                     var gps = (Msg_global_position_int)this.mavMessageCache["MavLink.Msg_global_position_int"];
-                    
+
                     FlightState fs = new FlightState
                     {
                         //The Id = 1 is because NEST sucks
@@ -64,8 +71,9 @@ namespace CommunicationsLayer
                         Altitude = gps.alt / 1000.0,
                         Yaw = gps.hdg / 100.0
                     };
+
                     this.nest.sendFlightState(fs);
-                    
+
                 }
             }
         }
