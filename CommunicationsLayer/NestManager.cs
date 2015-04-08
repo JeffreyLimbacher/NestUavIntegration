@@ -15,7 +15,7 @@ namespace CommunicationsLayer
 
         private NestSignalR sigR;
         private string url;
-
+        private UAV uav;
         
 
         public enum NestStatus
@@ -42,6 +42,8 @@ namespace CommunicationsLayer
                 }
             }
         }
+
+        private bool setFlightStateDb = false;
 
         public NestManager(NestSignalR signalRConnection, string url)
         {
@@ -91,7 +93,7 @@ namespace CommunicationsLayer
                 isActive = true,
                 estimated_workload = 0,
             };
-            req.ContentType = "application/json";
+            
             string uavJson = JsonConvert.SerializeObject(uav);
             byte[] uavBytes = Encoding.ASCII.GetBytes(uavJson);
 
@@ -100,13 +102,47 @@ namespace CommunicationsLayer
             str.Close();
 
             HttpWebResponse response = (HttpWebResponse)await req.GetResponseAsync();
+            StreamReader resStr = new StreamReader(response.GetResponseStream());
+            string jsonResponse = await resStr.ReadToEndAsync();
+            this.uav = JsonConvert.DeserializeObject<UAV>(jsonResponse);
             bool worked = response.StatusCode == HttpStatusCode.OK;
             return worked;
         }
 
-        public void sendFlightState(FlightState fs)
+        public async Task<bool> sendFlightState(FlightState fs)
         {
-            this.sigR.sendFlightState(fs);
+            if(this.uav == null)
+            {
+                return false;
+            }
+            fs.UAVId = this.uav.Id;
+            if (this.setFlightStateDb)
+            {
+                this.sigR.sendFlightState(fs);
+                return true;
+            }
+            else
+            {
+                HttpWebRequest req = this.buildDefaultRequest("/api/flightstate", "POST");
+                Stream stream = await req.GetRequestStreamAsync();
+                await writeToStream<FlightState>(fs, stream);
+                stream.Close();
+
+                HttpWebResponse res = (HttpWebResponse)await req.GetResponseAsync();
+
+                bool valid = res.StatusCode == HttpStatusCode.OK;
+                this.setFlightStateDb = valid;
+                res.Close();
+                return valid;
+            }
+        }
+
+
+        private async Task writeToStream<T>(T obj, Stream str)
+        {
+            string objStr = JsonConvert.SerializeObject(obj);
+            byte[] objBytes = Encoding.ASCII.GetBytes(objStr);
+            await str.WriteAsync(objBytes,0, objBytes.Length);
         }
 
         public HttpWebRequest buildDefaultRequest(string controllerAction,  string method = "GET")
@@ -114,6 +150,7 @@ namespace CommunicationsLayer
             HttpWebRequest req = (HttpWebRequest)WebRequest.Create(this.url+controllerAction);
             req.UserAgent = "NestUavIntegration";
             req.Method = method;
+            req.ContentType = "application/json";
             return req;
         }
     }

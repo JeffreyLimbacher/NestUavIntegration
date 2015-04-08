@@ -14,8 +14,6 @@ namespace CommunicationsLayer
         private NestManager nest;
         private NetworkConnection mav;
 
-        private bool setFlightStateInDb;
-
         //Stores the latest message we have received.
         private IDictionary<string, object> mavMessageCache;
 
@@ -25,8 +23,6 @@ namespace CommunicationsLayer
             this.mav = mav;
             this.mavMessageCache = new Dictionary<string, object>();
             this.subscribeToMavNetworkConnection();
-
-            this.setFlightStateInDb = false;
 
             //TODO: Move this out 
             this.startSendTask();
@@ -68,14 +64,7 @@ namespace CommunicationsLayer
                         Altitude = gps.alt / 1000.0,
                         Yaw = gps.hdg / 100.0
                     };
-                    if(!this.setFlightStateInDb)
-                    {
-                        
-                    }
-                    else
-                    {
-                        this.nest.sendFlightState(fs);
-                    }
+                    this.nest.sendFlightState(fs);
                     
                 }
             }

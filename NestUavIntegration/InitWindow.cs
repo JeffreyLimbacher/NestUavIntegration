@@ -215,6 +215,17 @@ namespace NestUavIntegration
             {
                 this.bridge = new NestMavBridge(this.nestManager, this.socket);
             }
+
+            this.nestManager.LoginToNest();
+            bool result = await this.nestManager.RegisterVehicle("JEFF22");
+            if (result)
+            {
+                Console.WriteLine("Vehicle successfully registered");
+            }
+            else
+            {
+                Console.WriteLine("Something went wrong registering the vehicle");
+            }
         }
 
         private void stateChanged(object sender, NestManager.NestStatus status)
@@ -235,15 +246,32 @@ namespace NestUavIntegration
 
         private async void testButton_Click(object sender, EventArgs e)
         {
-            this.nestManager.LoginToNest();
-            bool worked = await this.nestManager.RegisterVehicle("JEFF22");
+            bool worked = await this.nestManager.sendFlightState(new NEST_App.Models.FlightState
+            {
+                Latitude = 34.242034,
+                Longitude = -118.528763,
+                BatteryLevel = 1.00,
+                Altitude = 400,
+                create_date = DateTime.Now,
+                modified_date = DateTime.Now,
+                Pitch = 0,
+                PitchRate = 0,
+                Roll = 0,
+                RollRate = 0,
+                Yaw = 0,
+                YawRate = 0,
+                VelocityX = 0,
+                VelocityY = 0,
+                VelocityZ = 0,
+                Timestamp = DateTime.Now
+            });
             if(worked)
             {
-                Console.WriteLine("Test successful");
+                Console.WriteLine("Flightstate setting worked");
             }
             else
             {
-                Console.WriteLine("Test unsuccessful");
+                Console.WriteLine("FlightState setting failed");
             }
         }
     }
