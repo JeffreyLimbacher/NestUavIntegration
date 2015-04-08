@@ -74,9 +74,17 @@ namespace CommunicationsLayer
             //Do error reporting here.
         }
 
+        /// <summary>
+        /// Registers the vehicle with NEST using an HTTP asynchronous call. Right now just the callsign
+        /// is passed in. The should be awaited and the return should be examined to determined if the
+        /// call was succesful or not. 
+        /// </summary>
+        /// <param name="callsign">The callsign of the vehicle to be added</param>
+        /// <returns></returns>
         public async Task<bool> RegisterVehicle(string callsign)
         {
             HttpWebRequest req = this.buildDefaultRequest("/api/uavs/adduavwithautoconfig", "POST");
+            //Populate the UAV structure with random crap.
             UAV uav = new UAV
             {
                 Callsign = callsign,
@@ -94,6 +102,7 @@ namespace CommunicationsLayer
                 estimated_workload = 0,
             };
             
+
             string uavJson = JsonConvert.SerializeObject(uav);
             byte[] uavBytes = Encoding.ASCII.GetBytes(uavJson);
 
@@ -104,11 +113,20 @@ namespace CommunicationsLayer
             HttpWebResponse response = (HttpWebResponse)await req.GetResponseAsync();
             StreamReader resStr = new StreamReader(response.GetResponseStream());
             string jsonResponse = await resStr.ReadToEndAsync();
+            //Store the retrned uav from the server.
             this.uav = JsonConvert.DeserializeObject<UAV>(jsonResponse);
+            //If we get Http Response 200, then we are golden.
             bool worked = response.StatusCode == HttpStatusCode.OK;
             return worked;
         }
 
+        /// <summary>
+        /// Send the flight state of the vehicle to NEST. This might be done with SignalR or Http.
+        /// For now, the first time it is called, as a rule of thumb, is sent as HTTP request. The
+        /// rest are sent as signalR calls.
+        /// </summary>
+        /// <param name="fs">The populated flight state variable</param>
+        /// <returns></returns>
         public async Task<bool> sendFlightState(FlightState fs)
         {
             if(this.uav == null)
@@ -138,14 +156,28 @@ namespace CommunicationsLayer
             }
         }
 
-
+        /// <summary>
+        /// Generic method for writing out a stream. Generally this should be used with an
+        /// Http stream and an object that you want converted to JSON. 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj">Object to be converted to JSON</param>
+        /// <param name="str">The stream</param>
+        /// <returns></returns>
         private async Task writeToStream<T>(T obj, Stream str)
         {
             string objStr = JsonConvert.SerializeObject(obj);
             byte[] objBytes = Encoding.ASCII.GetBytes(objStr);
-            await str.WriteAsync(objBytes,0, objBytes.Length);
+            //Write all the bytes we got
+            await str.WriteAsync(objBytes, 0, objBytes.Length);
         }
 
+        /// <summary>
+        /// Convenience funtion to build HTTP Web Requests.
+        /// </summary>
+        /// <param name="controllerAction">The controller action to be called on the NEST server</param>
+        /// <param name="method">The HTTP method (GET/PUT/POST/DELETE), defaults to GET</param>
+        /// <returns>The HttpWebRequest with</returns>
         public HttpWebRequest buildDefaultRequest(string controllerAction,  string method = "GET")
         {
             HttpWebRequest req = (HttpWebRequest)WebRequest.Create(this.url+controllerAction);
