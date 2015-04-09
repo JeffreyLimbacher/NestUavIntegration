@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CommunicationsLayer
 {
-    class IComms
+    interface IComms
     {
 
         bool Connected { get; }
@@ -16,7 +16,7 @@ namespace CommunicationsLayer
         /// both the serial port case and the udp port case, so the call to this should only be called
         /// if the connection point got disconnected.
         /// </summary>
-        Task<bool> Connect();
+        bool Connect();
 
         /// <summary>
         /// Send the specified bytes starting at point offset up until offset+length (exclusive)
@@ -25,13 +25,13 @@ namespace CommunicationsLayer
         /// <param name="offset"></param>
         /// <param name="length"></param>
         /// <returns></returns>
-        Task<int> SendAsync(byte[] data, int offset, int length);
+        Task<int> SendAsync(byte[] data, int length);
 
         /// <summary>
         /// Receive the bytes from the connection.
         /// </summary>
         /// <returns></returns>
-        Task<byte[]> ReceiveAsync();
+        async Task<byte[]> ReceiveAsync();
 
         /// <summary>
         /// Closes the connection with the specified point.
