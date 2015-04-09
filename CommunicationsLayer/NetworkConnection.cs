@@ -115,6 +115,7 @@ namespace CommunicationsLayer
             this.mav = new Mavlink();
             this.mav.PacketReceived += this.PassOnNewPacket;
             this.currentPhase = Phase.NotConnected;
+            this.comms = comms;
         }
 
         public void Connect()

@@ -28,9 +28,7 @@ namespace NestUavIntegration
         {
             InitializeComponent();
             //Just have the connection in the background for now.
-            
-            
-            this.socket.PacketEventHandler += this.NewPacketReceived;
+           
 
         }
 
@@ -42,7 +40,7 @@ namespace NestUavIntegration
             //Give it the port number we entered.
             this.socket = new NetworkConnection(new MavNetworkConnection(portNo));
             infoBox.AppendText("Connected to UDP port " + portNo + "." + Environment.NewLine);
-
+            this.socket.PacketEventHandler += this.NewPacketReceived;
             //This starts the loop in the background.
             this.socket.BeginReceiveTask();
             infoBox.AppendText("Receiving Data... " + Environment.NewLine);
