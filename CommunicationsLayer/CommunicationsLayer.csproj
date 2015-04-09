@@ -53,6 +53,8 @@
     <Compile Include="MavLink\Mavlink.cs" />
     <Compile Include="MavLink\out.generated.cs" />
     <Compile Include="MavLink\out_codec.generated.cs" />
+    <Compile Include="Nest Models\Mission.cs" />
+    <Compile Include="Nest Models\Waypoint.cs" />
     <Compile Include="NetworkConnection.cs" />
     <Compile Include="NestManager.cs" />
     <Compile Include="NestMavBridge.cs" />
