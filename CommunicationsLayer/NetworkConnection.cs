@@ -18,10 +18,8 @@ namespace CommunicationsLayer
         //TODO: Write out packets
         //TODO: Report errors
         private Mavlink mav;
-        //The UdpClient is how we are going to receive messages from the SITL.
-        private UdpClient connection;
-        private volatile IPEndPoint connectionEndPoint;
-        private volatile Boolean gotEndPoint;
+
+        private IComms comms;
 
         //This uses the event delegate defined in MavLink.cs. See that for parameter information (although it should be clear from the method below).
         //This simply gets the packets receives from the Mavlink.cs file and fires another event.
@@ -30,8 +28,6 @@ namespace CommunicationsLayer
         public MavlinkMessageEventHandler<Msg_attitude> receivedAttitude;
         public MavlinkMessageEventHandler<Msg_global_position_int> receivedGlobalPositionInt;
         public MavlinkMessageEventHandler<Msg_command_ack> receivedAck;
-
-        public EventHandler receivedIpEndPoint;
 
         //This stores the thread that is listening in the background.
         public Task listeningTask;
@@ -111,25 +107,19 @@ namespace CommunicationsLayer
             }
         }
 
-        public NetworkConnection()
+        public NetworkConnection(IComms comms)
         {
             componentId = 0;
             systemId = 0;
             //Wait until we get it from the receive task.
-            this.gotEndPoint = false;
             this.mav = new Mavlink();
             this.mav.PacketReceived += this.PassOnNewPacket;
             this.currentPhase = Phase.NotConnected;
         }
 
-        public void Connect(int port)
+        public void Connect()
         {
-            //IPAddress.Any means we are going to open a UDP port and just listen to any messages coming in.
-            IPAddress addr = IPAddress.Any;
-            //Open new IP Address with the any ip address and the port
-            this.connectionEndPoint = new IPEndPoint(addr, port);
-
-            this.connection = new UdpClient(this.connectionEndPoint);
+            this.comms.Connect();
         }
 
         public void BeginReceiveTask()
@@ -146,22 +136,8 @@ namespace CommunicationsLayer
                     {
                         await bookKeepingSend();
                         //Receie the connection
-                        UdpReceiveResult receive = await this.connection.ReceiveAsync();
-                        if (!this.gotEndPoint)
-                        {
-                            this.currentPhase = Phase.Connecting;
-                            this.connectionEndPoint = receive.RemoteEndPoint;
-                            this.gotEndPoint = true;
-                        }
-                        if (this.receivedIpEndPoint != null)
-                        {
-
-                            this.receivedIpEndPoint(this, null);
-                            //Get rid of the events, aka only fire this once for people subscribed to it.
-                            this.receivedIpEndPoint = null;
-                            //This is in its own if statement because people might subscribe after we get the endpoint.
-                        }
-                        mav.ParseBytes(receive.Buffer);
+                        byte[] data = await this.comms.ReceiveAsync();
+                        mav.ParseBytes(data);
 
                     }
                 });
@@ -169,7 +145,7 @@ namespace CommunicationsLayer
 
         public async Task bookKeepingSend()
         {
-            if (!this.gotEndPoint)
+            if (!this.comms.Connected)
             {
                 return;
             }
@@ -266,7 +242,7 @@ namespace CommunicationsLayer
                 SystemId = 0
             };
             byte[] bytes = mav.Send(pack);
-            int sent = await this.connection.SendAsync(bytes, bytes.Length, this.connectionEndPoint);
+            int sent = await this.comms.SendAsync(bytes, bytes.Length);
             return sent;
         }
 

@@ -16,8 +16,6 @@ namespace NEST_App.Models
     {
         public Mission()
         {
-            this.Orders = new HashSet<Order>();
-            this.MissionLogs = new HashSet<MissionLog>();
             this.Waypoints = new HashSet<Waypoint>();
         }
     

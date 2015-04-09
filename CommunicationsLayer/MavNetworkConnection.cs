@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CommunicationsLayer
 {
-    class MavNetworkConnection : IComms
+    public class MavNetworkConnection : IComms
     {
 
         public bool Connected
@@ -50,7 +50,7 @@ namespace CommunicationsLayer
         {
             if(this.connectionEndPoint == null)
             {
-                return new Task<int>(-1);
+                return Task.FromResult<int>(-1);
             }
             return this.client.SendAsync(data, length, this.connectionEndPoint);
         }

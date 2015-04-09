@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CommunicationsLayer
 {
-    interface IComms
+    public interface IComms
     {
 
         bool Connected { get; }
@@ -31,7 +31,7 @@ namespace CommunicationsLayer
         /// Receive the bytes from the connection.
         /// </summary>
         /// <returns></returns>
-        async Task<byte[]> ReceiveAsync();
+        Task<byte[]> ReceiveAsync();
 
         /// <summary>
         /// Closes the connection with the specified point.
