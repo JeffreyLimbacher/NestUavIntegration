@@ -83,6 +83,35 @@ namespace CommunicationsLayer
         /// <returns></returns>
         public async Task<bool> RegisterVehicle(string callsign)
         {
+            UAV u = await GetUavFromServer(callsign);
+            if(u == null)
+            {
+                Console.WriteLine("Vehicle was not registered. Registering " + callsign);
+                u = await RegisterNewVehicle(callsign);
+            }
+            if(u == null)
+            {
+                Console.WriteLine("Something went wrong");
+                return false;
+            }
+            this.uav = u;
+            return true;
+            
+        }
+
+        public async Task<UAV> GetUavFromServer(string callsign)
+        {
+            HttpWebRequest req = this.buildDefaultRequest("/api/uavs/searchbycallsign?callsign="+callsign, "GET");
+            HttpWebResponse response = (HttpWebResponse)await req.GetResponseAsync();
+            StreamReader resStr = new StreamReader(response.GetResponseStream());
+            string jsonResponse = await resStr.ReadToEndAsync();
+            UAV uav = JsonConvert.DeserializeObject<UAV>(jsonResponse);
+
+            return uav;
+        }
+
+        public async Task<UAV> RegisterNewVehicle(string callsign)
+        {
             HttpWebRequest req = this.buildDefaultRequest("/api/uavs/adduavwithautoconfig", "POST");
             //Populate the UAV structure with random crap.
             UAV uav = new UAV
@@ -101,7 +130,7 @@ namespace CommunicationsLayer
                 isActive = true,
                 estimated_workload = 0,
             };
-            
+
 
             string uavJson = JsonConvert.SerializeObject(uav);
             byte[] uavBytes = Encoding.ASCII.GetBytes(uavJson);
@@ -114,10 +143,9 @@ namespace CommunicationsLayer
             StreamReader resStr = new StreamReader(response.GetResponseStream());
             string jsonResponse = await resStr.ReadToEndAsync();
             //Store the retrned uav from the server.
-            this.uav = JsonConvert.DeserializeObject<UAV>(jsonResponse);
-            //If we get Http Response 200, then we are golden.
-            bool worked = response.StatusCode == HttpStatusCode.OK;
-            return worked;
+            UAV serverUav = JsonConvert.DeserializeObject<UAV>(jsonResponse);
+
+            return serverUav;
         }
 
         /// <summary>

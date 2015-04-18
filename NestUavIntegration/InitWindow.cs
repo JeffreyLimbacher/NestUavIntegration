@@ -11,12 +11,13 @@ using System.Runtime.InteropServices;
 using System.Reflection;
 using CommunicationsLayer;
 using MavLink;
+using MavLinkNet;
 
 namespace NestUavIntegration
 {
     public partial class InitWindow : Form
     {
-        private NetworkConnection socket;
+        private MavLinkGenericTransport mav;
         private NestMavBridge bridge;
 
         private NestManager nestManager;
@@ -38,14 +39,26 @@ namespace NestUavIntegration
             string portStr = this.textBox1.Text;
             int portNo = Convert.ToInt32(portStr);
             //Give it the port number we entered.
-            this.socket = new NetworkConnection(new MavNetworkConnection(portNo));
+            this.mav = new MavLinkUdpTransport()
+            {
+                UdpListeningPort = portNo,
+            };
             infoBox.AppendText("Connected to UDP port " + portNo + "." + Environment.NewLine);
-            this.socket.PacketEventHandler += this.NewPacketReceived;
+            //this.socket.OnPacketReceived += this.NewPacketReceived;
             //This starts the loop in the background.
-            this.socket.BeginReceiveTask();
+            this.mav.Initialize();
             infoBox.AppendText("Receiving Data... " + Environment.NewLine);
 
             this.armButton.Enabled = true;
+            this.createBridgeIfPossible();
+        }
+
+        private void createBridgeIfPossible()
+        {
+            if(this.mav != null && this.nestManager != null)
+            {
+                this.bridge = new NestMavBridge(this.nestManager, this.mav);
+            }
         }
 
         private async void ipEndPointReceived(object sender, EventArgs e)
@@ -57,7 +70,7 @@ namespace NestUavIntegration
             req.start_stop = 1;
             req.req_stream_id = (byte)MAV_DATA_STREAM.MAV_DATA_STREAM_ALL;
 
-            await this.socket.SendMessage(req);
+            //await this.socket.SendMessage(req);
         }
 
         private void InitWindow_Load(object sender, EventArgs e)
@@ -70,7 +83,7 @@ namespace NestUavIntegration
             this.FillTypeSelect();
         }
 
-        private void NewPacketReceived(object sender, MavlinkPacket packet)
+        public void NewPacketReceived(object sender, MavlinkPacket packet)
         {
             //For now we just print out the type of message we received.
             //Console.WriteLine(packet.Message.ToString());
@@ -165,7 +178,7 @@ namespace NestUavIntegration
                     //This converts the string to the type selected. This won't work for all the types.
                     field.SetValue(t, Convert.ChangeType(val, field.FieldType));
                 }
-                await socket.SendMessage((MavlinkMessage)t);
+                //await socket.SendMessage((MavlinkMessage)t);
 
                 //Inform user about successful message delivery
                 infoBox.AppendText("Message sent." + Environment.NewLine);
@@ -188,7 +201,7 @@ namespace NestUavIntegration
         private async void armButton_Click(object sender, EventArgs e)
         {
 
-            bool canSend = await this.socket.ArmVehicle();
+            //bool canSend = await this.socket.ArmVehicle();
             //TODO: report error if cansend is false
         }
 
@@ -204,14 +217,11 @@ namespace NestUavIntegration
             this.nestManager = new NestManager(nest, url);
 
             this.testButton.Enabled = true;
-            
-            if (this.socket != null)
-            {
-                this.bridge = new NestMavBridge(this.nestManager, this.socket);
-            }
+
+            this.createBridgeIfPossible();
 
             this.nestManager.LoginToNest();
-            bool result = await this.nestManager.RegisterVehicle("JEFF22");
+            bool result = await this.nestManager.RegisterVehicle("SERL1");
             if (result)
             {
                 Console.WriteLine("Vehicle successfully registered");

@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IComms.cs" />
+    <Compile Include="MavLinkConnection.cs" />
     <Compile Include="MavNetworkConnection.cs" />
     <Compile Include="Nest Models\FlightState.cs" />
     <Compile Include="MavConnection.cs" />

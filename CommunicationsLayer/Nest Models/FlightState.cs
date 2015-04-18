@@ -14,6 +14,13 @@ namespace NEST_App.Models
     
     public partial class FlightState
     {
+
+        public FlightState()
+        {
+            Timestamp = DateTime.Now;
+            create_date= DateTime.Now;
+            modified_date = DateTime.Now;
+        }
         public int Id { get; set; }
         public System.DateTime Timestamp { get; set; }
         public double VelocityX { get; set; }
