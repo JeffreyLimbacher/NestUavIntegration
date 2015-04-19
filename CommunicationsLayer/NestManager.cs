@@ -5,18 +5,22 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using NEST_App.Models;
+using Microsoft.AspNet.SignalR.Client;
 using Newtonsoft.Json;
+using NEST_App.Models;
+
 
 namespace CommunicationsLayer
 {
     public class NestManager
     {
 
-        private NestSignalR sigR;
+        private IHubProxy vehHub;
         private string url;
         private UAV uav;
-        
+
+        public delegate void receivedSignalR<T>(object sender, T message);
+        public event receivedSignalR<CMD_NAV_Target> receivedTargetCommand;
 
         public enum NestStatus
         {
@@ -45,11 +49,21 @@ namespace CommunicationsLayer
 
         private bool setFlightStateDb = false;
 
-        public NestManager(NestSignalR signalRConnection, string url)
+        public NestManager(IHubProxy signalRConnection, string url)
         {
             this._State = NestStatus.NotLoggedIn;
-            this.sigR = signalRConnection;
+            this.vehHub = signalRConnection;
             this.url = url;
+            this.subscribeToSignalR();
+            
+        }
+
+        private void subscribeToSignalR()
+        {
+            this.vehHub.On<CMD_NAV_Target>("sendTargetCommand", cmd =>
+            {
+                if (receivedTargetCommand != null) receivedTargetCommand(this, cmd);
+            });
         }
 
         public async void LoginToNest()
@@ -164,7 +178,7 @@ namespace CommunicationsLayer
             fs.UAVId = this.uav.Id;
             if (this.setFlightStateDb)
             {
-                this.sigR.sendFlightState(fs);
+                await this.vehHub.Invoke("PushFlightStateUpdate", fs);
                 return true;
             }
             else

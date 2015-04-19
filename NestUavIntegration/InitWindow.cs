@@ -12,12 +12,13 @@ using System.Reflection;
 using CommunicationsLayer;
 using MavLink;
 using MavLinkNet;
+using Microsoft.AspNet.SignalR.Client;
 
 namespace NestUavIntegration
 {
     public partial class InitWindow : Form
     {
-        private MavLinkGenericTransport mav;
+        private MavManager mav;
         private NestMavBridge bridge;
 
         private NestManager nestManager;
@@ -39,17 +40,19 @@ namespace NestUavIntegration
             string portStr = this.textBox1.Text;
             int portNo = Convert.ToInt32(portStr);
             //Give it the port number we entered.
-            this.mav = new MavLinkUdpTransport()
+            var trans = new MavLinkUdpTransport()
             {
                 UdpListeningPort = portNo,
             };
             infoBox.AppendText("Connected to UDP port " + portNo + "." + Environment.NewLine);
             //this.socket.OnPacketReceived += this.NewPacketReceived;
             //This starts the loop in the background.
-            this.mav.Initialize();
+            trans.Initialize();
             infoBox.AppendText("Receiving Data... " + Environment.NewLine);
-
+            this.mav = new MavManager(trans);
+            this.mav.OnPacketReceived += this.onReceivedHeartbeat;
             this.armButton.Enabled = true;
+            
             this.createBridgeIfPossible();
         }
 
@@ -85,8 +88,10 @@ namespace NestUavIntegration
 
         public void NewPacketReceived(object sender, MavlinkPacket packet)
         {
-            //For now we just print out the type of message we received.
-            //Console.WriteLine(packet.Message.ToString());
+            if(packet.Message.ToString() == "Msg_heartbeat")
+            {
+
+            }
         }
 
         /// <summary>
@@ -95,12 +100,12 @@ namespace NestUavIntegration
         /// </summary>
         private void FillTypeSelect()
         {
-            Assembly mavAssem = Assembly.GetAssembly(typeof(Mavlink));
+            Assembly mavAssem = Assembly.GetAssembly(typeof(MavLinkNet.MavLinkUdpTransport));
             Type[] types = mavAssem.GetTypes();
             foreach(Type type in types) 
             {
                 //Filter out non message types.
-                if (type.ToString().Contains("Msg_"))
+                if (type.ToString().Contains("Uas"))
                 {
                     msgSelect.Items.Add(type);
                 }
@@ -208,7 +213,7 @@ namespace NestUavIntegration
         private async void nestConnect_Click(object sender, EventArgs e)
         {
             this.nestConnect.Enabled = false;
-            NestSignalR nest = await NestSignalR.getNestConnection("http://localhost:53130");
+            IHubProxy nest = await NestSignalR.getNestConnection("http://localhost:53130");
 
             
 
@@ -276,6 +281,53 @@ namespace NestUavIntegration
             else
             {
                 Console.WriteLine("FlightState setting failed");
+            }
+        }
+
+        private void onReceivedHeartbeat(object sender, MavLinkPacket pack)
+        {
+            if(this.InvokeRequired)
+            {
+                PacketReceivedDelegate d = new PacketReceivedDelegate(this.onReceivedHeartbeat);
+                try
+                {
+                    this.Invoke(d, sender, pack);
+                    return;
+                }
+                catch (ObjectDisposedException e)
+                {
+                    Console.WriteLine("System ignored a message because it is closing");
+                }
+            }
+            else if (pack.MessageId == 0)
+            {
+                UasHeartbeat hb = (UasHeartbeat)pack.Message;
+                this.vehicleMode.Text = "Disarmed";
+                if(hb.BaseMode.HasFlag((MavModeFlag)MavModeFlagDecodePosition.Safety))
+                {
+                    this.armedLabel.Text = "Armed";
+                }
+                else
+                {
+                    this.armedLabel.Text = "Disarmed";
+                }
+
+                if (hb.BaseMode.HasFlag((MavModeFlag)MavModeFlagDecodePosition.Auto))
+                {
+                    this.vehicleMode.Text = "Auto";
+                }
+                else if (hb.BaseMode.HasFlag((MavModeFlag)MavModeFlagDecodePosition.Guided))
+                {
+                    this.vehicleMode.Text = "Guided";
+                }
+                else if (hb.BaseMode.HasFlag((MavModeFlag)MavModeFlagDecodePosition.Stabilize))
+                {
+                    this.vehicleMode.Text = "Stabilze";
+                }
+                else
+                {
+                    this.vehicleMode.Text = "Unknown";
+                }
             }
         }
     }

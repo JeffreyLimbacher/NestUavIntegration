@@ -13,37 +13,55 @@ namespace CommunicationsLayer
     {
 
         private NestManager nest;
-        private MavLinkGenericTransport mav;
+        private MavManager mav;
 
         //Stores the latest message we have received.
         private IDictionary<byte, UasMessage> mavMessageCache;
 
-        public NestMavBridge(NestManager nest, MavLinkGenericTransport mav)
+        public NestMavBridge(NestManager nest, MavManager mav)
         {
             Console.WriteLine("NestMavBridge init");
             this.nest = nest;
             this.mav = mav;
             this.mavMessageCache = new Dictionary<byte, UasMessage>();
-            this.subscribeToMavNetworkConnection();
-
+            this.SubscribeToMavNetworkConnection();
+            this.SubscribeToSignalR();
             //TODO: Move this out 
-            this.startSendTask();
+            this.StartSendTask();
+            mav.ArmVehicle();
         }
 
-        private void subscribeToMavNetworkConnection()
-        {   
-            this.mav.OnPacketReceived += this.mavlinkStoreGeneric;
-        }
-
-        public void mavlinkStoreGeneric(object sender, MavLinkPacket msg)
+        private void SubscribeToSignalR()
         {
-            //the msg.toString should give the message time
-            Console.WriteLine("Got message");
+            this.nest.receivedTargetCommand += GoToCommand;
+        }
 
+        private void SubscribeToMavNetworkConnection()
+        {   
+            this.mav.OnPacketReceived += this.MavlinkStoreGeneric;
+        }
+
+        public void MavlinkStoreGeneric(object sender, MavLinkPacket msg)
+        {
             mavMessageCache[msg.MessageId] = msg.Message;
         }
 
-        public async void startSendTask()
+        public void GoToCommand(object sender, CMD_NAV_Target target)
+        {
+            Console.WriteLine("Got cmd nav target " + target.Latitude + " " + target.Longitude);
+            UasCommandLong cmd = new UasCommandLong()
+            {
+                Command = MavCmd.NavLoiterUnlim,
+                Param3 = 0,
+                Param4 = 0,
+                Param5 = (float)target.Latitude,
+                Param6 = (float)target.Longitude,
+                Param7 = 15 //Ignore the one in target, probably way too high.
+            };
+            this.mav.SendMessage(cmd);
+        }
+
+        public async void StartSendTask()
         {
             while (true)
             {
@@ -51,7 +69,6 @@ namespace CommunicationsLayer
                 await Task.Delay(200);
                 if (this.mavMessageCache.ContainsKey(33))
                 {
-                    Console.WriteLine("flight state being sent");
                     var gps = (UasGlobalPositionInt)this.mavMessageCache[33];
 
                     FlightState fs = new FlightState
@@ -77,6 +94,7 @@ namespace CommunicationsLayer
 
                     await this.nest.sendFlightState(fs);
 
+                    
                 }
             }
         }

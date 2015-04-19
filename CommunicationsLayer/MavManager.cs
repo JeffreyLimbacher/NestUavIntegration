@@ -7,18 +7,34 @@ using MavLinkNet;
 
 namespace CommunicationsLayer
 {
-    public class MavLinkConnection
+    public class MavManager
     {
 
         private MavLinkGenericTransport transport;
         public event PacketReceivedDelegate OnPacketReceived;
         public event EventHandler OnReceptionEnded;
 
-        public MavLinkConnection(MavLinkGenericTransport transport)
+        public MavManager(MavLinkGenericTransport transport)
         {
             this.transport = transport;
             this.transport.OnPacketReceived += this.HandlePacketReceived;
             this.transport.OnReceptionEnded += this.HandleReceptionEnded;
+        }
+
+        public void SendMessage(UasMessage msg)
+        {
+            this.transport.SendMessage(msg);
+        }
+
+        public void ArmVehicle()
+        {
+            UasCommandLong m = new UasCommandLong()
+            {
+                TargetComponent = 0,
+                TargetSystem = 0,
+                Param1 = 1.0f
+            };
+            this.SendMessage(m);
         }
 
         private void HandlePacketReceived(object sender, MavLinkPacket e)

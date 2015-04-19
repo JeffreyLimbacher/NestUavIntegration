@@ -48,13 +48,19 @@
             this.flightInfo = new System.Windows.Forms.Label();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.vehicleMode = new System.Windows.Forms.Label();
+            this.mavStatus = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.armButton = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.testButton = new System.Windows.Forms.Button();
             this.nestUrlTextBox = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.nestConnect = new System.Windows.Forms.Button();
-            this.testButton = new System.Windows.Forms.Button();
+            this.label7 = new System.Windows.Forms.Label();
+            this.armedLabel = new System.Windows.Forms.Label();
             this.tabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -91,7 +97,7 @@
             // msgSelect
             // 
             this.msgSelect.FormattingEnabled = true;
-            this.msgSelect.Location = new System.Drawing.Point(18, 76);
+            this.msgSelect.Location = new System.Drawing.Point(12, 448);
             this.msgSelect.Name = "msgSelect";
             this.msgSelect.Size = new System.Drawing.Size(189, 21);
             this.msgSelect.TabIndex = 3;
@@ -100,7 +106,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(18, 57);
+            this.label2.Location = new System.Drawing.Point(12, 429);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(143, 13);
             this.label2.TabIndex = 4;
@@ -112,7 +118,7 @@
             this.messageLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.messageLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.messageLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.messageLayout.Location = new System.Drawing.Point(18, 113);
+            this.messageLayout.Location = new System.Drawing.Point(18, 475);
             this.messageLayout.Name = "messageLayout";
             this.messageLayout.RowCount = 8;
             this.messageLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -123,12 +129,12 @@
             this.messageLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.messageLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.messageLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.messageLayout.Size = new System.Drawing.Size(321, 456);
+            this.messageLayout.Size = new System.Drawing.Size(321, 94);
             this.messageLayout.TabIndex = 5;
             // 
             // sendMessageButton
             // 
-            this.sendMessageButton.Location = new System.Drawing.Point(213, 76);
+            this.sendMessageButton.Location = new System.Drawing.Point(207, 448);
             this.sendMessageButton.Name = "sendMessageButton";
             this.sendMessageButton.Size = new System.Drawing.Size(117, 21);
             this.sendMessageButton.TabIndex = 6;
@@ -253,6 +259,12 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.armedLabel);
+            this.tabPage1.Controls.Add(this.label7);
+            this.tabPage1.Controls.Add(this.vehicleMode);
+            this.tabPage1.Controls.Add(this.mavStatus);
+            this.tabPage1.Controls.Add(this.label6);
+            this.tabPage1.Controls.Add(this.label5);
             this.tabPage1.Controls.Add(this.armButton);
             this.tabPage1.Controls.Add(this.infoBox);
             this.tabPage1.Controls.Add(this.clearInfoBox);
@@ -270,6 +282,42 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Connection";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // vehicleMode
+            // 
+            this.vehicleMode.AutoSize = true;
+            this.vehicleMode.Location = new System.Drawing.Point(102, 64);
+            this.vehicleMode.Name = "vehicleMode";
+            this.vehicleMode.Size = new System.Drawing.Size(53, 13);
+            this.vehicleMode.TabIndex = 13;
+            this.vehicleMode.Text = "Unknown";
+            // 
+            // mavStatus
+            // 
+            this.mavStatus.AutoSize = true;
+            this.mavStatus.Location = new System.Drawing.Point(102, 51);
+            this.mavStatus.Name = "mavStatus";
+            this.mavStatus.Size = new System.Drawing.Size(79, 13);
+            this.mavStatus.TabIndex = 12;
+            this.mavStatus.Text = "Not Connected";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(21, 64);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(75, 13);
+            this.label6.TabIndex = 11;
+            this.label6.Text = "Vehicle Mode:";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(16, 51);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(80, 13);
+            this.label5.TabIndex = 10;
+            this.label5.Text = "Mavlink Status:";
             // 
             // armButton
             // 
@@ -314,6 +362,17 @@
             this.tabPage3.Text = "NEST";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // testButton
+            // 
+            this.testButton.Enabled = false;
+            this.testButton.Location = new System.Drawing.Point(9, 51);
+            this.testButton.Name = "testButton";
+            this.testButton.Size = new System.Drawing.Size(75, 23);
+            this.testButton.TabIndex = 3;
+            this.testButton.Text = "Test";
+            this.testButton.UseVisualStyleBackColor = true;
+            this.testButton.Click += new System.EventHandler(this.testButton_Click);
+            // 
             // nestUrlTextBox
             // 
             this.nestUrlTextBox.Location = new System.Drawing.Point(73, 13);
@@ -341,16 +400,23 @@
             this.nestConnect.UseVisualStyleBackColor = true;
             this.nestConnect.Click += new System.EventHandler(this.nestConnect_Click);
             // 
-            // testButton
+            // label7
             // 
-            this.testButton.Enabled = false;
-            this.testButton.Location = new System.Drawing.Point(9, 51);
-            this.testButton.Name = "testButton";
-            this.testButton.Size = new System.Drawing.Size(75, 23);
-            this.testButton.TabIndex = 3;
-            this.testButton.Text = "Test";
-            this.testButton.UseVisualStyleBackColor = true;
-            this.testButton.Click += new System.EventHandler(this.testButton_Click);
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(56, 77);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(40, 13);
+            this.label7.TabIndex = 14;
+            this.label7.Text = "Armed:";
+            // 
+            // armedLabel
+            // 
+            this.armedLabel.AutoSize = true;
+            this.armedLabel.Location = new System.Drawing.Point(102, 77);
+            this.armedLabel.Name = "armedLabel";
+            this.armedLabel.Size = new System.Drawing.Size(57, 13);
+            this.armedLabel.TabIndex = 15;
+            this.armedLabel.Text = "Not Armed";
             // 
             // InitWindow
             // 
@@ -401,6 +467,12 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button nestConnect;
         private System.Windows.Forms.Button testButton;
+        private System.Windows.Forms.Label vehicleMode;
+        private System.Windows.Forms.Label mavStatus;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label armedLabel;
+        private System.Windows.Forms.Label label7;
     }
 }
 

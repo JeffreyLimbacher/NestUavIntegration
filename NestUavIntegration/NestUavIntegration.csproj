@@ -94,6 +94,10 @@
       <Project>{efa9ee50-923c-43d9-883a-ce31ef940b47}</Project>
       <Name>CommunicationsLayer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\mavlink.net-master\mavlink.net\mavlink.net.csproj">
+      <Project>{2dff5e5b-eb22-4c03-bec9-994b112b8e78}</Project>
+      <Name>mavlink.net</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
