@@ -32,8 +32,10 @@ namespace CommunicationsLayer
             {
                 TargetComponent = 0,
                 TargetSystem = 0,
+                Command = MavCmd.ComponentArmDisarm,
                 Param1 = 1.0f
             };
+
             this.SendMessage(m);
         }
 
