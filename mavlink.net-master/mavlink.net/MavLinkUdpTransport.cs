@@ -45,12 +45,12 @@ namespace MavLinkNet
         private UdpClient mUdpClient;
         private bool mIsActive = true;
 
-
+        private bool receivedIp = false;
         public override void Initialize()
         {
             InitializeMavLink();
             InitializeUdpListener(UdpListeningPort);
-            InitializeUdpSender(TargetIpAddress, UdpTargetPort);
+            //InitializeUdpSender(TargetIpAddress, UdpTargetPort);
         }
 
         public override void Dispose()
@@ -95,7 +95,12 @@ namespace MavLinkNet
             {
                 IPEndPoint ep = ar.AsyncState as IPEndPoint;
                 mReceiveQueue.Enqueue(mUdpClient.EndReceive(ar, ref ep));
-
+                if(!this.receivedIp && ep != null)
+                {
+                    InitializeUdpSender(ep.Address, ep.Port);
+                    this.receivedIp = true;
+                }
+                
                 if (!mIsActive)
                 {
                     mReceiveSignal.Set();
