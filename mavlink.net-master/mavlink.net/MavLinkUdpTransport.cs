@@ -34,7 +34,7 @@ namespace MavLinkNet
     {
         public int UdpListeningPort = 0;  // Any available port
         public int UdpTargetPort = 14550;
-        public IPAddress TargetIpAddress = new IPAddress(new byte[] { 127, 0, 0, 1 });
+        public IPAddress TargetIpAddress = new IPAddress(new byte[] { 192, 168, 1, 15 });
         public int HeartBeatUpdateRateMs = 1000;
         
         private ConcurrentQueue<byte[]> mReceiveQueue = new ConcurrentQueue<byte[]>();

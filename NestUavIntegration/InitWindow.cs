@@ -43,6 +43,7 @@ namespace NestUavIntegration
             var trans = new MavLinkUdpTransport()
             {
                 UdpListeningPort = portNo,
+                TargetIpAddress = new System.Net.IPAddress (new byte[]{ 192,168,1,5}),
             };
             infoBox.AppendText("Connected to UDP port " + portNo + "." + Environment.NewLine);
             //this.socket.OnPacketReceived += this.NewPacketReceived;
@@ -206,8 +207,7 @@ namespace NestUavIntegration
         private async void armButton_Click(object sender, EventArgs e)
         {
 
-            //bool canSend = await this.socket.ArmVehicle();
-            //TODO: report error if cansend is false
+            this.mav.ArmVehicle();
         }
 
         private async void nestConnect_Click(object sender, EventArgs e)
