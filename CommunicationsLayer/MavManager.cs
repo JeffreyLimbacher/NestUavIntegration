@@ -28,7 +28,7 @@ namespace CommunicationsLayer
 
         public void ArmVehicle()
         {
-            UasCommandLong m = new UasCommandLong()
+            UasCommandLong armMsg = new UasCommandLong()
             {
                 TargetComponent = 0,
                 TargetSystem = 0,
@@ -36,7 +36,7 @@ namespace CommunicationsLayer
                 Param1 = 1.0f
             };
 
-            this.SendMessage(m);
+            this.SendMessage(armMsg);
         }
 
         private void HandlePacketReceived(object sender, MavLinkPacket e)
