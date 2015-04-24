@@ -44,7 +44,6 @@ namespace NestUavIntegration
             var trans = new MavLinkUdpTransport()
             {
                 UdpListeningPort = portNo,
-                TargetIpAddress = new System.Net.IPAddress (new byte[]{ 192,168,1,5}),
             };
             infoBox.AppendText("Connected to UDP port " + portNo + "." + Environment.NewLine);
             //this.socket.OnPacketReceived += this.NewPacketReceived;
@@ -65,18 +64,6 @@ namespace NestUavIntegration
             {
                 this.bridge = new NestMavBridge(this.nestManager, this.mav);
             }
-        }
-
-        private async void ipEndPointReceived(object sender, EventArgs e)
-        {
-            Msg_request_data_stream req = new Msg_request_data_stream();
-            req.target_system = 1;
-            req.target_component = 1;
-            req.req_message_rate = 1;
-            req.start_stop = 1;
-            req.req_stream_id = (byte)MAV_DATA_STREAM.MAV_DATA_STREAM_ALL;
-
-            //await this.socket.SendMessage(req);
         }
 
         private void InitWindow_Load(object sender, EventArgs e)
@@ -168,7 +155,7 @@ namespace NestUavIntegration
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void SendMessageButton_Click(object sender, EventArgs e)
+        private void SendMessageButton_Click(object sender, EventArgs e)
         {
             //Gets the type that was selected
             Type type = (Type)msgSelect.SelectedItem;
@@ -206,7 +193,7 @@ namespace NestUavIntegration
             infoBox.Clear();
         }
 
-        private async void armButton_Click(object sender, EventArgs e)
+        private void armButton_Click(object sender, EventArgs e)
         {
 
             this.mav.ArmVehicle();

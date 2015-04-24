@@ -14,18 +14,12 @@ namespace CommunicationsLayer
     public class NestSignalR
     {
 
-        private IHubProxy vehicleHub;
-
-        private static HubConnection hubConnection = null;
+        private static HubConnection hubConnection;
         
 
         private NestSignalR(IHubProxy vehicleHub)
         {
             //This should never be called
-        }
-
-        public void sendFlightState(FlightState fs){
-            this.vehicleHub.Invoke("PushFlightStateUpdate", fs);
         }
 
         public static async Task<IHubProxy> getNestConnection(string url)
