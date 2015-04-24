@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.portTb = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.msgSelect = new System.Windows.Forms.ComboBox();
@@ -37,17 +37,18 @@
             this.sendMessageButton = new System.Windows.Forms.Button();
             this.infoBox = new System.Windows.Forms.TextBox();
             this.clearInfoBox = new System.Windows.Forms.Button();
-            this.altitudeBox = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.rollBox = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.pitchBox = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.yawBox = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.flightInfo = new System.Windows.Forms.Label();
+            this.altitudeTb = new System.Windows.Forms.TextBox();
+            this.altitudeLabel = new System.Windows.Forms.Label();
+            this.rollLabel = new System.Windows.Forms.Label();
+            this.rollTb = new System.Windows.Forms.TextBox();
+            this.pitchLabel = new System.Windows.Forms.Label();
+            this.pitchTb = new System.Windows.Forms.TextBox();
+            this.yawLabel = new System.Windows.Forms.Label();
+            this.yawTb = new System.Windows.Forms.TextBox();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.armedLabel = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             this.vehicleMode = new System.Windows.Forms.Label();
             this.mavStatus = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -59,21 +60,31 @@
             this.nestUrlTextBox = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.nestConnect = new System.Windows.Forms.Button();
-            this.label7 = new System.Windows.Forms.Label();
-            this.armedLabel = new System.Windows.Forms.Label();
+            this.imuPanel = new System.Windows.Forms.Panel();
+            this.imuLabel = new System.Windows.Forms.Label();
+            this.speedDataLabel = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.pitchSpdTb = new System.Windows.Forms.TextBox();
+            this.yawSpdLabel = new System.Windows.Forms.Label();
+            this.rollSpdLabel = new System.Windows.Forms.Label();
+            this.pitchSpdLabel = new System.Windows.Forms.Label();
+            this.yawSpdTb = new System.Windows.Forms.TextBox();
+            this.rollSpdTb = new System.Windows.Forms.TextBox();
             this.tabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            this.imuPanel.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // textBox1
+            // portTb
             // 
-            this.textBox1.Location = new System.Drawing.Point(92, 19);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 0;
-            this.textBox1.Text = "14550";
+            this.portTb.Location = new System.Drawing.Point(92, 19);
+            this.portTb.Name = "portTb";
+            this.portTb.Size = new System.Drawing.Size(100, 20);
+            this.portTb.TabIndex = 0;
+            this.portTb.Text = "14550";
             // 
             // label1
             // 
@@ -163,88 +174,101 @@
             this.clearInfoBox.UseVisualStyleBackColor = true;
             this.clearInfoBox.Click += new System.EventHandler(this.ClearInfoBox_Click);
             // 
-            // altitudeBox
+            // altitudeTb
             // 
-            this.altitudeBox.BackColor = System.Drawing.SystemColors.Control;
-            this.altitudeBox.Location = new System.Drawing.Point(40, 95);
-            this.altitudeBox.Name = "altitudeBox";
-            this.altitudeBox.ReadOnly = true;
-            this.altitudeBox.Size = new System.Drawing.Size(100, 20);
-            this.altitudeBox.TabIndex = 9;
+            this.altitudeTb.BackColor = System.Drawing.Color.Chocolate;
+            this.altitudeTb.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.altitudeTb.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.altitudeTb.ForeColor = System.Drawing.SystemColors.HighlightText;
+            this.altitudeTb.Location = new System.Drawing.Point(89, 23);
+            this.altitudeTb.Name = "altitudeTb";
+            this.altitudeTb.ReadOnly = true;
+            this.altitudeTb.Size = new System.Drawing.Size(100, 28);
+            this.altitudeTb.TabIndex = 9;
+            this.altitudeTb.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // label3
+            // altitudeLabel
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(72, 79);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(42, 13);
-            this.label3.TabIndex = 10;
-            this.label3.Text = "Altitude";
+            this.altitudeLabel.AutoSize = true;
+            this.altitudeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.altitudeLabel.ForeColor = System.Drawing.Color.DarkOrange;
+            this.altitudeLabel.Location = new System.Drawing.Point(35, 23);
+            this.altitudeLabel.Name = "altitudeLabel";
+            this.altitudeLabel.Size = new System.Drawing.Size(40, 25);
+            this.altitudeLabel.TabIndex = 10;
+            this.altitudeLabel.Text = "Alt";
             // 
-            // rollBox
+            // rollLabel
             // 
-            this.rollBox.AutoSize = true;
-            this.rollBox.Location = new System.Drawing.Point(78, 132);
-            this.rollBox.Name = "rollBox";
-            this.rollBox.Size = new System.Drawing.Size(25, 13);
-            this.rollBox.TabIndex = 12;
-            this.rollBox.Text = "Roll";
+            this.rollLabel.AutoSize = true;
+            this.rollLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rollLabel.ForeColor = System.Drawing.Color.Violet;
+            this.rollLabel.Location = new System.Drawing.Point(26, 73);
+            this.rollLabel.Name = "rollLabel";
+            this.rollLabel.Size = new System.Drawing.Size(53, 25);
+            this.rollLabel.TabIndex = 12;
+            this.rollLabel.Text = "Roll";
             // 
-            // textBox2
+            // rollTb
             // 
-            this.textBox2.BackColor = System.Drawing.SystemColors.Control;
-            this.textBox2.Location = new System.Drawing.Point(40, 148);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(100, 20);
-            this.textBox2.TabIndex = 11;
+            this.rollTb.BackColor = System.Drawing.Color.Purple;
+            this.rollTb.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.rollTb.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rollTb.ForeColor = System.Drawing.SystemColors.HighlightText;
+            this.rollTb.Location = new System.Drawing.Point(89, 73);
+            this.rollTb.Name = "rollTb";
+            this.rollTb.ReadOnly = true;
+            this.rollTb.Size = new System.Drawing.Size(100, 28);
+            this.rollTb.TabIndex = 11;
+            this.rollTb.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // pitchBox
+            // pitchLabel
             // 
-            this.pitchBox.AutoSize = true;
-            this.pitchBox.Location = new System.Drawing.Point(78, 188);
-            this.pitchBox.Name = "pitchBox";
-            this.pitchBox.Size = new System.Drawing.Size(31, 13);
-            this.pitchBox.TabIndex = 14;
-            this.pitchBox.Text = "Pitch";
+            this.pitchLabel.AutoSize = true;
+            this.pitchLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pitchLabel.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.pitchLabel.Location = new System.Drawing.Point(14, 123);
+            this.pitchLabel.Name = "pitchLabel";
+            this.pitchLabel.Size = new System.Drawing.Size(65, 25);
+            this.pitchLabel.TabIndex = 14;
+            this.pitchLabel.Text = "Pitch";
             // 
-            // textBox3
+            // pitchTb
             // 
-            this.textBox3.BackColor = System.Drawing.SystemColors.Control;
-            this.textBox3.Location = new System.Drawing.Point(40, 204);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.ReadOnly = true;
-            this.textBox3.Size = new System.Drawing.Size(100, 20);
-            this.textBox3.TabIndex = 13;
+            this.pitchTb.BackColor = System.Drawing.Color.SteelBlue;
+            this.pitchTb.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.pitchTb.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pitchTb.ForeColor = System.Drawing.SystemColors.HighlightText;
+            this.pitchTb.Location = new System.Drawing.Point(89, 123);
+            this.pitchTb.Name = "pitchTb";
+            this.pitchTb.ReadOnly = true;
+            this.pitchTb.Size = new System.Drawing.Size(100, 28);
+            this.pitchTb.TabIndex = 13;
+            this.pitchTb.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // yawBox
+            // yawLabel
             // 
-            this.yawBox.AutoSize = true;
-            this.yawBox.Location = new System.Drawing.Point(78, 245);
-            this.yawBox.Name = "yawBox";
-            this.yawBox.Size = new System.Drawing.Size(28, 13);
-            this.yawBox.TabIndex = 16;
-            this.yawBox.Text = "Yaw";
+            this.yawLabel.AutoSize = true;
+            this.yawLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.yawLabel.ForeColor = System.Drawing.Color.Gold;
+            this.yawLabel.Location = new System.Drawing.Point(18, 175);
+            this.yawLabel.Name = "yawLabel";
+            this.yawLabel.Size = new System.Drawing.Size(57, 25);
+            this.yawLabel.TabIndex = 16;
+            this.yawLabel.Text = "Yaw";
             // 
-            // textBox4
+            // yawTb
             // 
-            this.textBox4.BackColor = System.Drawing.SystemColors.Control;
-            this.textBox4.Location = new System.Drawing.Point(40, 261);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.ReadOnly = true;
-            this.textBox4.Size = new System.Drawing.Size(100, 20);
-            this.textBox4.TabIndex = 15;
-            // 
-            // flightInfo
-            // 
-            this.flightInfo.AutoSize = true;
-            this.flightInfo.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.flightInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.flightInfo.Location = new System.Drawing.Point(23, 29);
-            this.flightInfo.Name = "flightInfo";
-            this.flightInfo.Size = new System.Drawing.Size(147, 24);
-            this.flightInfo.TabIndex = 18;
-            this.flightInfo.Text = "Flight Infomation";
+            this.yawTb.BackColor = System.Drawing.Color.Goldenrod;
+            this.yawTb.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.yawTb.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.yawTb.ForeColor = System.Drawing.SystemColors.HighlightText;
+            this.yawTb.Location = new System.Drawing.Point(89, 175);
+            this.yawTb.Name = "yawTb";
+            this.yawTb.ReadOnly = true;
+            this.yawTb.Size = new System.Drawing.Size(100, 28);
+            this.yawTb.TabIndex = 15;
+            this.yawTb.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // tabControl
             // 
@@ -270,7 +294,7 @@
             this.tabPage1.Controls.Add(this.clearInfoBox);
             this.tabPage1.Controls.Add(this.label1);
             this.tabPage1.Controls.Add(this.sendMessageButton);
-            this.tabPage1.Controls.Add(this.textBox1);
+            this.tabPage1.Controls.Add(this.portTb);
             this.tabPage1.Controls.Add(this.messageLayout);
             this.tabPage1.Controls.Add(this.button1);
             this.tabPage1.Controls.Add(this.label2);
@@ -282,6 +306,24 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Connection";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // armedLabel
+            // 
+            this.armedLabel.AutoSize = true;
+            this.armedLabel.Location = new System.Drawing.Point(102, 77);
+            this.armedLabel.Name = "armedLabel";
+            this.armedLabel.Size = new System.Drawing.Size(57, 13);
+            this.armedLabel.TabIndex = 15;
+            this.armedLabel.Text = "Not Armed";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(56, 77);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(40, 13);
+            this.label7.TabIndex = 14;
+            this.label7.Text = "Armed:";
             // 
             // vehicleMode
             // 
@@ -332,22 +374,17 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.flightInfo);
-            this.tabPage2.Controls.Add(this.altitudeBox);
-            this.tabPage2.Controls.Add(this.yawBox);
-            this.tabPage2.Controls.Add(this.label3);
-            this.tabPage2.Controls.Add(this.textBox4);
-            this.tabPage2.Controls.Add(this.textBox2);
-            this.tabPage2.Controls.Add(this.pitchBox);
-            this.tabPage2.Controls.Add(this.rollBox);
-            this.tabPage2.Controls.Add(this.textBox3);
+            this.tabPage2.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.tabPage2.Controls.Add(this.panel1);
+            this.tabPage2.Controls.Add(this.speedDataLabel);
+            this.tabPage2.Controls.Add(this.imuLabel);
+            this.tabPage2.Controls.Add(this.imuPanel);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(885, 578);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Flight State";
-            this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // tabPage3
             // 
@@ -400,23 +437,127 @@
             this.nestConnect.UseVisualStyleBackColor = true;
             this.nestConnect.Click += new System.EventHandler(this.nestConnect_Click);
             // 
-            // label7
+            // imuPanel
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(56, 77);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(40, 13);
-            this.label7.TabIndex = 14;
-            this.label7.Text = "Armed:";
+            this.imuPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.imuPanel.Controls.Add(this.altitudeLabel);
+            this.imuPanel.Controls.Add(this.altitudeTb);
+            this.imuPanel.Controls.Add(this.pitchTb);
+            this.imuPanel.Controls.Add(this.yawLabel);
+            this.imuPanel.Controls.Add(this.rollLabel);
+            this.imuPanel.Controls.Add(this.pitchLabel);
+            this.imuPanel.Controls.Add(this.yawTb);
+            this.imuPanel.Controls.Add(this.rollTb);
+            this.imuPanel.Location = new System.Drawing.Point(17, 46);
+            this.imuPanel.Name = "imuPanel";
+            this.imuPanel.Size = new System.Drawing.Size(215, 229);
+            this.imuPanel.TabIndex = 17;
             // 
-            // armedLabel
+            // imuLabel
             // 
-            this.armedLabel.AutoSize = true;
-            this.armedLabel.Location = new System.Drawing.Point(102, 77);
-            this.armedLabel.Name = "armedLabel";
-            this.armedLabel.Size = new System.Drawing.Size(57, 13);
-            this.armedLabel.TabIndex = 15;
-            this.armedLabel.Text = "Not Armed";
+            this.imuLabel.AutoSize = true;
+            this.imuLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.imuLabel.Location = new System.Drawing.Point(61, 12);
+            this.imuLabel.Name = "imuLabel";
+            this.imuLabel.Size = new System.Drawing.Size(129, 31);
+            this.imuLabel.TabIndex = 18;
+            this.imuLabel.Text = "IMU Data";
+            // 
+            // speedDataLabel
+            // 
+            this.speedDataLabel.AutoSize = true;
+            this.speedDataLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.speedDataLabel.Location = new System.Drawing.Point(332, 12);
+            this.speedDataLabel.Name = "speedDataLabel";
+            this.speedDataLabel.Size = new System.Drawing.Size(157, 31);
+            this.speedDataLabel.TabIndex = 19;
+            this.speedDataLabel.Text = "Speed Data";
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.panel1.Controls.Add(this.pitchSpdTb);
+            this.panel1.Controls.Add(this.yawSpdLabel);
+            this.panel1.Controls.Add(this.rollSpdLabel);
+            this.panel1.Controls.Add(this.pitchSpdLabel);
+            this.panel1.Controls.Add(this.yawSpdTb);
+            this.panel1.Controls.Add(this.rollSpdTb);
+            this.panel1.Location = new System.Drawing.Point(261, 46);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(288, 229);
+            this.panel1.TabIndex = 20;
+            // 
+            // pitchSpdTb
+            // 
+            this.pitchSpdTb.BackColor = System.Drawing.Color.DarkSalmon;
+            this.pitchSpdTb.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.pitchSpdTb.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pitchSpdTb.ForeColor = System.Drawing.SystemColors.HighlightText;
+            this.pitchSpdTb.Location = new System.Drawing.Point(158, 73);
+            this.pitchSpdTb.Name = "pitchSpdTb";
+            this.pitchSpdTb.ReadOnly = true;
+            this.pitchSpdTb.Size = new System.Drawing.Size(100, 28);
+            this.pitchSpdTb.TabIndex = 13;
+            this.pitchSpdTb.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // yawSpdLabel
+            // 
+            this.yawSpdLabel.AutoSize = true;
+            this.yawSpdLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.yawSpdLabel.ForeColor = System.Drawing.Color.GreenYellow;
+            this.yawSpdLabel.Location = new System.Drawing.Point(21, 123);
+            this.yawSpdLabel.Name = "yawSpdLabel";
+            this.yawSpdLabel.Size = new System.Drawing.Size(131, 25);
+            this.yawSpdLabel.TabIndex = 16;
+            this.yawSpdLabel.Text = "Yaw Speed";
+            // 
+            // rollSpdLabel
+            // 
+            this.rollSpdLabel.AutoSize = true;
+            this.rollSpdLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rollSpdLabel.ForeColor = System.Drawing.Color.PowderBlue;
+            this.rollSpdLabel.Location = new System.Drawing.Point(25, 23);
+            this.rollSpdLabel.Name = "rollSpdLabel";
+            this.rollSpdLabel.Size = new System.Drawing.Size(127, 25);
+            this.rollSpdLabel.TabIndex = 12;
+            this.rollSpdLabel.Text = "Roll Speed";
+            // 
+            // pitchSpdLabel
+            // 
+            this.pitchSpdLabel.AutoSize = true;
+            this.pitchSpdLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pitchSpdLabel.ForeColor = System.Drawing.Color.Salmon;
+            this.pitchSpdLabel.Location = new System.Drawing.Point(13, 73);
+            this.pitchSpdLabel.Name = "pitchSpdLabel";
+            this.pitchSpdLabel.Size = new System.Drawing.Size(139, 25);
+            this.pitchSpdLabel.TabIndex = 14;
+            this.pitchSpdLabel.Text = "Pitch Speed";
+            // 
+            // yawSpdTb
+            // 
+            this.yawSpdTb.BackColor = System.Drawing.Color.OliveDrab;
+            this.yawSpdTb.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.yawSpdTb.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.yawSpdTb.ForeColor = System.Drawing.SystemColors.HighlightText;
+            this.yawSpdTb.Location = new System.Drawing.Point(158, 125);
+            this.yawSpdTb.Name = "yawSpdTb";
+            this.yawSpdTb.ReadOnly = true;
+            this.yawSpdTb.Size = new System.Drawing.Size(100, 28);
+            this.yawSpdTb.TabIndex = 15;
+            this.yawSpdTb.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // rollSpdTb
+            // 
+            this.rollSpdTb.BackColor = System.Drawing.Color.Teal;
+            this.rollSpdTb.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.rollSpdTb.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rollSpdTb.ForeColor = System.Drawing.SystemColors.HighlightText;
+            this.rollSpdTb.Location = new System.Drawing.Point(158, 23);
+            this.rollSpdTb.Name = "rollSpdTb";
+            this.rollSpdTb.ReadOnly = true;
+            this.rollSpdTb.Size = new System.Drawing.Size(100, 28);
+            this.rollSpdTb.TabIndex = 11;
+            this.rollSpdTb.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // InitWindow
             // 
@@ -434,13 +575,17 @@
             this.tabPage2.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
+            this.imuPanel.ResumeLayout(false);
+            this.imuPanel.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox portTb;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ComboBox msgSelect;
@@ -449,15 +594,14 @@
         private System.Windows.Forms.Button sendMessageButton;
         private System.Windows.Forms.TextBox infoBox;
         private System.Windows.Forms.Button clearInfoBox;
-        private System.Windows.Forms.TextBox altitudeBox;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label rollBox;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Label pitchBox;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.Label yawBox;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.Label flightInfo;
+        private System.Windows.Forms.TextBox altitudeTb;
+        private System.Windows.Forms.Label altitudeLabel;
+        private System.Windows.Forms.Label rollLabel;
+        private System.Windows.Forms.TextBox rollTb;
+        private System.Windows.Forms.Label pitchLabel;
+        private System.Windows.Forms.TextBox pitchTb;
+        private System.Windows.Forms.Label yawLabel;
+        private System.Windows.Forms.TextBox yawTb;
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
@@ -473,6 +617,16 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label armedLabel;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Panel imuPanel;
+        private System.Windows.Forms.Label imuLabel;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.TextBox pitchSpdTb;
+        private System.Windows.Forms.Label yawSpdLabel;
+        private System.Windows.Forms.Label rollSpdLabel;
+        private System.Windows.Forms.Label pitchSpdLabel;
+        private System.Windows.Forms.TextBox yawSpdTb;
+        private System.Windows.Forms.TextBox rollSpdTb;
+        private System.Windows.Forms.Label speedDataLabel;
     }
 }
 

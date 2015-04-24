@@ -37,7 +37,7 @@ namespace NestUavIntegration
 
         private async void Connect_Click(object sender, EventArgs e)
         {
-            string portStr = this.textBox1.Text;
+            string portStr = this.portTb.Text;
             int portNo = Convert.ToInt32(portStr);
             //Give it the port number we entered.
             var trans = new MavLinkUdpTransport()
@@ -52,6 +52,7 @@ namespace NestUavIntegration
             infoBox.AppendText("Receiving Data... " + Environment.NewLine);
             this.mav = new MavManager(trans);
             this.mav.OnPacketReceived += this.onReceivedHeartbeat;
+            this.mav.OnPacketReceived += this.onReceivedStatus;
             this.armButton.Enabled = true;
             
             this.createBridgeIfPossible();
@@ -330,5 +331,49 @@ namespace NestUavIntegration
                 }
             }
         }
+
+        /// <summary>
+        /// Handle any incoming messages related to UAV status information.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="pack"></param>
+        private void onReceivedStatus(Object sender, MavLinkPacket pack)
+        {
+            if (this.InvokeRequired)
+            {
+                PacketReceivedDelegate d = new PacketReceivedDelegate(this.onReceivedStatus);
+                try
+                {
+                    this.Invoke(d, sender, pack);
+                    return;
+                }
+                catch (ObjectDisposedException e)
+                {
+                    Console.WriteLine("System ignored a message because it is closing");
+                }
+            }
+            else {
+                if (pack.MessageId == 30) // attitude
+                {
+                    UasAttitude attitude = (UasAttitude)pack.Message;
+
+                    //Display IMU Data on Flight State Tab
+                    rollTb.Text = String.Format("{0:0.####}", attitude.Pitch);
+                    pitchTb.Text = String.Format("{0:0.####}", attitude.Pitch);
+                    yawTb.Text = String.Format("{0:0.####}", attitude.Yaw);
+
+                    //Display Speed Data on Flight State Tab
+                    rollSpdTb.Text = String.Format("{0:0.####}", attitude.Rollspeed);
+                    pitchSpdTb.Text = String.Format("{0:0.####}", attitude.Pitchspeed);
+                    yawSpdTb.Text = String.Format("{0:0.####}", attitude.Yawspeed);
+                }
+                if (pack.MessageId == 33) //global_position_int
+                {
+                    UasGlobalPositionInt position = (UasGlobalPositionInt)pack.Message;
+
+                    altitudeTb.Text = String.Format("{0:0.####}", position.Alt);
+                }
+            } 
+        }//End method onReceivedStatus
     }
 }
