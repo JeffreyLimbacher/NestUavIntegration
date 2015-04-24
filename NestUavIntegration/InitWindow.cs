@@ -35,8 +35,9 @@ namespace NestUavIntegration
         }
 
 
-        private async void Connect_Click(object sender, EventArgs e)
+        private void Connect_Click(object sender, EventArgs e)
         {
+            this.mavConnect.Enabled = false;
             string portStr = this.portTb.Text;
             int portNo = Convert.ToInt32(portStr);
             //Give it the port number we entered.

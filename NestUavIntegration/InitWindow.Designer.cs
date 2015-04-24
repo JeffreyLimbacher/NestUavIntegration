@@ -30,7 +30,7 @@
         {
             this.portTb = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.mavConnect = new System.Windows.Forms.Button();
             this.msgSelect = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.messageLayout = new System.Windows.Forms.TableLayoutPanel();
@@ -55,14 +55,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.armButton = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.testButton = new System.Windows.Forms.Button();
-            this.nestUrlTextBox = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.nestConnect = new System.Windows.Forms.Button();
-            this.imuPanel = new System.Windows.Forms.Panel();
-            this.imuLabel = new System.Windows.Forms.Label();
-            this.speedDataLabel = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.pitchSpdTb = new System.Windows.Forms.TextBox();
             this.yawSpdLabel = new System.Windows.Forms.Label();
@@ -70,12 +62,20 @@
             this.pitchSpdLabel = new System.Windows.Forms.Label();
             this.yawSpdTb = new System.Windows.Forms.TextBox();
             this.rollSpdTb = new System.Windows.Forms.TextBox();
+            this.speedDataLabel = new System.Windows.Forms.Label();
+            this.imuLabel = new System.Windows.Forms.Label();
+            this.imuPanel = new System.Windows.Forms.Panel();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.testButton = new System.Windows.Forms.Button();
+            this.nestUrlTextBox = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.nestConnect = new System.Windows.Forms.Button();
             this.tabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            this.tabPage3.SuspendLayout();
-            this.imuPanel.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.imuPanel.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             this.SuspendLayout();
             // 
             // portTb
@@ -95,15 +95,15 @@
             this.label1.TabIndex = 1;
             this.label1.Text = "Listening Port";
             // 
-            // button1
+            // mavConnect
             // 
-            this.button1.Location = new System.Drawing.Point(207, 17);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "Connect";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.Connect_Click);
+            this.mavConnect.Location = new System.Drawing.Point(207, 17);
+            this.mavConnect.Name = "mavConnect";
+            this.mavConnect.Size = new System.Drawing.Size(75, 23);
+            this.mavConnect.TabIndex = 2;
+            this.mavConnect.Text = "Connect";
+            this.mavConnect.UseVisualStyleBackColor = true;
+            this.mavConnect.Click += new System.EventHandler(this.Connect_Click);
             // 
             // msgSelect
             // 
@@ -296,7 +296,7 @@
             this.tabPage1.Controls.Add(this.sendMessageButton);
             this.tabPage1.Controls.Add(this.portTb);
             this.tabPage1.Controls.Add(this.messageLayout);
-            this.tabPage1.Controls.Add(this.button1);
+            this.tabPage1.Controls.Add(this.mavConnect);
             this.tabPage1.Controls.Add(this.label2);
             this.tabPage1.Controls.Add(this.msgSelect);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
@@ -386,93 +386,6 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Flight State";
             // 
-            // tabPage3
-            // 
-            this.tabPage3.Controls.Add(this.testButton);
-            this.tabPage3.Controls.Add(this.nestUrlTextBox);
-            this.tabPage3.Controls.Add(this.label4);
-            this.tabPage3.Controls.Add(this.nestConnect);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(885, 578);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "NEST";
-            this.tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // testButton
-            // 
-            this.testButton.Enabled = false;
-            this.testButton.Location = new System.Drawing.Point(9, 51);
-            this.testButton.Name = "testButton";
-            this.testButton.Size = new System.Drawing.Size(75, 23);
-            this.testButton.TabIndex = 3;
-            this.testButton.Text = "Test";
-            this.testButton.UseVisualStyleBackColor = true;
-            this.testButton.Click += new System.EventHandler(this.testButton_Click);
-            // 
-            // nestUrlTextBox
-            // 
-            this.nestUrlTextBox.Location = new System.Drawing.Point(73, 13);
-            this.nestUrlTextBox.Name = "nestUrlTextBox";
-            this.nestUrlTextBox.Size = new System.Drawing.Size(158, 20);
-            this.nestUrlTextBox.TabIndex = 2;
-            this.nestUrlTextBox.Text = "http://localhost:53130";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 20);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(61, 13);
-            this.label4.TabIndex = 1;
-            this.label4.Text = "NEST URL";
-            // 
-            // nestConnect
-            // 
-            this.nestConnect.Location = new System.Drawing.Point(237, 11);
-            this.nestConnect.Name = "nestConnect";
-            this.nestConnect.Size = new System.Drawing.Size(75, 23);
-            this.nestConnect.TabIndex = 0;
-            this.nestConnect.Text = "Connect";
-            this.nestConnect.UseVisualStyleBackColor = true;
-            this.nestConnect.Click += new System.EventHandler(this.nestConnect_Click);
-            // 
-            // imuPanel
-            // 
-            this.imuPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
-            this.imuPanel.Controls.Add(this.altitudeLabel);
-            this.imuPanel.Controls.Add(this.altitudeTb);
-            this.imuPanel.Controls.Add(this.pitchTb);
-            this.imuPanel.Controls.Add(this.yawLabel);
-            this.imuPanel.Controls.Add(this.rollLabel);
-            this.imuPanel.Controls.Add(this.pitchLabel);
-            this.imuPanel.Controls.Add(this.yawTb);
-            this.imuPanel.Controls.Add(this.rollTb);
-            this.imuPanel.Location = new System.Drawing.Point(17, 46);
-            this.imuPanel.Name = "imuPanel";
-            this.imuPanel.Size = new System.Drawing.Size(215, 229);
-            this.imuPanel.TabIndex = 17;
-            // 
-            // imuLabel
-            // 
-            this.imuLabel.AutoSize = true;
-            this.imuLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.imuLabel.Location = new System.Drawing.Point(61, 12);
-            this.imuLabel.Name = "imuLabel";
-            this.imuLabel.Size = new System.Drawing.Size(129, 31);
-            this.imuLabel.TabIndex = 18;
-            this.imuLabel.Text = "IMU Data";
-            // 
-            // speedDataLabel
-            // 
-            this.speedDataLabel.AutoSize = true;
-            this.speedDataLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.speedDataLabel.Location = new System.Drawing.Point(332, 12);
-            this.speedDataLabel.Name = "speedDataLabel";
-            this.speedDataLabel.Size = new System.Drawing.Size(157, 31);
-            this.speedDataLabel.TabIndex = 19;
-            this.speedDataLabel.Text = "Speed Data";
-            // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
@@ -559,6 +472,93 @@
             this.rollSpdTb.TabIndex = 11;
             this.rollSpdTb.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // speedDataLabel
+            // 
+            this.speedDataLabel.AutoSize = true;
+            this.speedDataLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.speedDataLabel.Location = new System.Drawing.Point(332, 12);
+            this.speedDataLabel.Name = "speedDataLabel";
+            this.speedDataLabel.Size = new System.Drawing.Size(157, 31);
+            this.speedDataLabel.TabIndex = 19;
+            this.speedDataLabel.Text = "Speed Data";
+            // 
+            // imuLabel
+            // 
+            this.imuLabel.AutoSize = true;
+            this.imuLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.imuLabel.Location = new System.Drawing.Point(61, 12);
+            this.imuLabel.Name = "imuLabel";
+            this.imuLabel.Size = new System.Drawing.Size(129, 31);
+            this.imuLabel.TabIndex = 18;
+            this.imuLabel.Text = "IMU Data";
+            // 
+            // imuPanel
+            // 
+            this.imuPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.imuPanel.Controls.Add(this.altitudeLabel);
+            this.imuPanel.Controls.Add(this.altitudeTb);
+            this.imuPanel.Controls.Add(this.pitchTb);
+            this.imuPanel.Controls.Add(this.yawLabel);
+            this.imuPanel.Controls.Add(this.rollLabel);
+            this.imuPanel.Controls.Add(this.pitchLabel);
+            this.imuPanel.Controls.Add(this.yawTb);
+            this.imuPanel.Controls.Add(this.rollTb);
+            this.imuPanel.Location = new System.Drawing.Point(17, 46);
+            this.imuPanel.Name = "imuPanel";
+            this.imuPanel.Size = new System.Drawing.Size(215, 229);
+            this.imuPanel.TabIndex = 17;
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.testButton);
+            this.tabPage3.Controls.Add(this.nestUrlTextBox);
+            this.tabPage3.Controls.Add(this.label4);
+            this.tabPage3.Controls.Add(this.nestConnect);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Size = new System.Drawing.Size(885, 578);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "NEST";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // testButton
+            // 
+            this.testButton.Enabled = false;
+            this.testButton.Location = new System.Drawing.Point(9, 51);
+            this.testButton.Name = "testButton";
+            this.testButton.Size = new System.Drawing.Size(75, 23);
+            this.testButton.TabIndex = 3;
+            this.testButton.Text = "Test";
+            this.testButton.UseVisualStyleBackColor = true;
+            this.testButton.Click += new System.EventHandler(this.testButton_Click);
+            // 
+            // nestUrlTextBox
+            // 
+            this.nestUrlTextBox.Location = new System.Drawing.Point(73, 13);
+            this.nestUrlTextBox.Name = "nestUrlTextBox";
+            this.nestUrlTextBox.Size = new System.Drawing.Size(158, 20);
+            this.nestUrlTextBox.TabIndex = 2;
+            this.nestUrlTextBox.Text = "http://localhost:53130";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(6, 20);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(61, 13);
+            this.label4.TabIndex = 1;
+            this.label4.Text = "NEST URL";
+            // 
+            // nestConnect
+            // 
+            this.nestConnect.Location = new System.Drawing.Point(237, 11);
+            this.nestConnect.Name = "nestConnect";
+            this.nestConnect.Size = new System.Drawing.Size(75, 23);
+            this.nestConnect.TabIndex = 0;
+            this.nestConnect.Text = "Connect";
+            this.nestConnect.UseVisualStyleBackColor = true;
+            this.nestConnect.Click += new System.EventHandler(this.nestConnect_Click);
+            // 
             // InitWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -573,12 +573,12 @@
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
-            this.tabPage3.ResumeLayout(false);
-            this.tabPage3.PerformLayout();
-            this.imuPanel.ResumeLayout(false);
-            this.imuPanel.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.imuPanel.ResumeLayout(false);
+            this.imuPanel.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -587,7 +587,7 @@
 
         private System.Windows.Forms.TextBox portTb;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button mavConnect;
         private System.Windows.Forms.ComboBox msgSelect;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TableLayoutPanel messageLayout;
