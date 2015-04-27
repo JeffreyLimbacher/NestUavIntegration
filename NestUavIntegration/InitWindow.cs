@@ -193,10 +193,10 @@ namespace NestUavIntegration
             infoBox.Clear();
         }
 
-        private void armButton_Click(object sender, EventArgs e)
+        private async void armButton_Click(object sender, EventArgs e)
         {
 
-            this.mav.ArmVehicle();
+            await this.mav.ArmVehicle();
         }
 
         private async void nestConnect_Click(object sender, EventArgs e)
