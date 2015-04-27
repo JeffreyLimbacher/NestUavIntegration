@@ -346,20 +346,20 @@ namespace NestUavIntegration
                     UasAttitude attitude = (UasAttitude)pack.Message;
 
                     //Display IMU Data on Flight State Tab
-                    rollTb.Text = String.Format("{0:0.####}", attitude.Pitch);
-                    pitchTb.Text = String.Format("{0:0.####}", attitude.Pitch);
-                    yawTb.Text = String.Format("{0:0.####}", attitude.Yaw);
+                    rollTb.Text = String.Format("{0:0.00##}", attitude.Pitch);
+                    pitchTb.Text = String.Format("{0:0.00##}", attitude.Pitch);
+                    yawTb.Text = String.Format("{0:0.00##}", attitude.Yaw);
 
                     //Display Speed Data on Flight State Tab
-                    rollSpdTb.Text = String.Format("{0:0.####}", attitude.Rollspeed);
-                    pitchSpdTb.Text = String.Format("{0:0.####}", attitude.Pitchspeed);
-                    yawSpdTb.Text = String.Format("{0:0.####}", attitude.Yawspeed);
+                    rollSpdTb.Text = String.Format("{0:0.00##}", attitude.Rollspeed);
+                    pitchSpdTb.Text = String.Format("{0:0.00##}", attitude.Pitchspeed);
+                    yawSpdTb.Text = String.Format("{0:0.00##}", attitude.Yawspeed);
                 }
                 if (pack.MessageId == 33) //global_position_int
                 {
                     UasGlobalPositionInt position = (UasGlobalPositionInt)pack.Message;
 
-                    altitudeTb.Text = String.Format("{0:0.####}", position.Alt);
+                    altitudeTb.Text = String.Format("{0:0.00##}", (position.RelativeAlt)/1000);
                 }
             } 
         }//End method onReceivedStatus

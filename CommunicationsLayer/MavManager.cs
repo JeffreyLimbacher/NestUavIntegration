@@ -69,7 +69,8 @@ namespace CommunicationsLayer
 
             this.SendMessage(armMsg);
 
-            await Task.Delay(100);
+            await Task.Delay(3000); //Need to give APM time to initialize
+                                    //Only needs to be done one time
 
             UasCommandLong takeOff = new UasCommandLong()
             {
@@ -80,6 +81,16 @@ namespace CommunicationsLayer
             };
 
             this.SendMessage(takeOff);
+
+            await Task.Delay(1000);//Time to adjust to takeoff mode
+
+            //Now follow the waypoints
+            mode = new UasSetMode()
+            {
+                BaseMode = (byte)MavModeFlagDecodePosition.CustomMode,
+                CustomMode = 3 //Auto Mode
+            };
+            this.SendMessage(mode);
             
         }
 
