@@ -46,19 +46,10 @@ namespace CommunicationsLayer
             mavMessageCache[msg.MessageId] = msg.Message;
         }
 
-        public void GoToCommand(object sender, CMD_NAV_Target target)
+        public async void GoToCommand(object sender, CMD_NAV_Target target)
         {
-            Console.WriteLine("Got cmd nav target " + target.Latitude + " " + target.Longitude);
-            UasCommandLong cmd = new UasCommandLong()
-            {
-                Command = MavCmd.NavLoiterUnlim,
-                Param3 = 0,
-                Param4 = 0,
-                Param5 = (float)target.Latitude,
-                Param6 = (float)target.Longitude,
-                Param7 = 15 //Ignore the one in target, probably way too high.
-            };
-            this.mav.SendMessage(cmd);
+
+            await this.mav.goToLocation(target.Latitude, target.Longitude);
         }
 
         public async void StartSendTask()
