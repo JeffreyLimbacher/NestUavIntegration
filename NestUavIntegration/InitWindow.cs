@@ -363,6 +363,7 @@ namespace NestUavIntegration
 
                     altitudeTb.Text = String.Format("{0:0.00##}", (position.RelativeAlt)/1000);
                 }
+                if (pack.MessageId == 40)//Waypoint Request
                 {
                     UasMissionRequest request = (UasMissionRequest)pack.Message;
 
@@ -381,11 +382,17 @@ namespace NestUavIntegration
 
         private async void startMissionBtn_Click(object sender, EventArgs e)
         {
+            bool takeoff = await mav.TakeOff(); 
 
             if (takeoff)
             {
                 mav.SetAutoMode();
             }
+        }
+
+        private void rtlBtn_Click(object sender, EventArgs e)
+        {
+            mav.setMode("RTL");
         }
     }
 }

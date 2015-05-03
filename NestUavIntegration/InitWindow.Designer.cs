@@ -72,6 +72,8 @@
             this.label4 = new System.Windows.Forms.Label();
             this.nestConnect = new System.Windows.Forms.Button();
             this.startMissionBtn = new System.Windows.Forms.Button();
+            this.modeLabel = new System.Windows.Forms.Label();
+            this.rtlBtn = new System.Windows.Forms.Button();
             this.tabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -285,6 +287,8 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.rtlBtn);
+            this.tabPage1.Controls.Add(this.modeLabel);
             this.tabPage1.Controls.Add(this.startMissionBtn);
             this.tabPage1.Controls.Add(this.waypointBtn);
             this.tabPage1.Controls.Add(this.armedLabel);
@@ -583,6 +587,25 @@
             this.startMissionBtn.UseVisualStyleBackColor = true;
             this.startMissionBtn.Click += new System.EventHandler(this.startMissionBtn_Click);
             // 
+            // modeLabel
+            // 
+            this.modeLabel.AutoSize = true;
+            this.modeLabel.Location = new System.Drawing.Point(18, 105);
+            this.modeLabel.Name = "modeLabel";
+            this.modeLabel.Size = new System.Drawing.Size(34, 13);
+            this.modeLabel.TabIndex = 22;
+            this.modeLabel.Text = "Mode";
+            // 
+            // rtlBtn
+            // 
+            this.rtlBtn.Location = new System.Drawing.Point(18, 122);
+            this.rtlBtn.Name = "rtlBtn";
+            this.rtlBtn.Size = new System.Drawing.Size(75, 23);
+            this.rtlBtn.TabIndex = 23;
+            this.rtlBtn.Text = "RTL";
+            this.rtlBtn.UseVisualStyleBackColor = true;
+            this.rtlBtn.Click += new System.EventHandler(this.rtlBtn_Click);
+            // 
             // InitWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -653,6 +676,8 @@
         private System.Windows.Forms.Label speedDataLabel;
         private System.Windows.Forms.Button waypointBtn;
         private System.Windows.Forms.Button startMissionBtn;
+        private System.Windows.Forms.Button rtlBtn;
+        private System.Windows.Forms.Label modeLabel;
     }
 }
 

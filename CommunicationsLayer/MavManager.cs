@@ -141,5 +141,20 @@ namespace CommunicationsLayer
         {
             if (OnReceptionEnded != null) OnReceptionEnded(this, EventArgs.Empty);
         }
+
+        public void setMode(string mode)
+        {
+            switch (mode)
+            {
+                case "RTL":
+                    UasSetMode rtl = new UasSetMode() 
+                    {
+                        BaseMode = (byte)MavModeFlagDecodePosition.CustomMode,
+                        CustomMode = 6, //RTL mode
+                    };
+                    this.SendMessage(rtl);
+                    break;
+            }
+        }
     }
 }
