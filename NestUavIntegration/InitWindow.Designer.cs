@@ -47,6 +47,7 @@
             this.yawTb = new System.Windows.Forms.TextBox();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.waypointBtn = new System.Windows.Forms.Button();
             this.armedLabel = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.vehicleMode = new System.Windows.Forms.Label();
@@ -70,6 +71,7 @@
             this.nestUrlTextBox = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.nestConnect = new System.Windows.Forms.Button();
+            this.startMissionBtn = new System.Windows.Forms.Button();
             this.tabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -108,16 +110,16 @@
             // msgSelect
             // 
             this.msgSelect.FormattingEnabled = true;
-            this.msgSelect.Location = new System.Drawing.Point(12, 448);
+            this.msgSelect.Location = new System.Drawing.Point(18, 448);
             this.msgSelect.Name = "msgSelect";
-            this.msgSelect.Size = new System.Drawing.Size(189, 21);
+            this.msgSelect.Size = new System.Drawing.Size(198, 21);
             this.msgSelect.TabIndex = 3;
             this.msgSelect.SelectedIndexChanged += new System.EventHandler(this.msgSelect_SelectedIndexChanged);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 429);
+            this.label2.Location = new System.Drawing.Point(16, 432);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(143, 13);
             this.label2.TabIndex = 4;
@@ -145,7 +147,7 @@
             // 
             // sendMessageButton
             // 
-            this.sendMessageButton.Location = new System.Drawing.Point(207, 448);
+            this.sendMessageButton.Location = new System.Drawing.Point(222, 447);
             this.sendMessageButton.Name = "sendMessageButton";
             this.sendMessageButton.Size = new System.Drawing.Size(117, 21);
             this.sendMessageButton.TabIndex = 6;
@@ -283,6 +285,8 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.startMissionBtn);
+            this.tabPage1.Controls.Add(this.waypointBtn);
             this.tabPage1.Controls.Add(this.armedLabel);
             this.tabPage1.Controls.Add(this.label7);
             this.tabPage1.Controls.Add(this.vehicleMode);
@@ -306,6 +310,16 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Connection";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // waypointBtn
+            // 
+            this.waypointBtn.Location = new System.Drawing.Point(207, 51);
+            this.waypointBtn.Name = "waypointBtn";
+            this.waypointBtn.Size = new System.Drawing.Size(75, 39);
+            this.waypointBtn.TabIndex = 20;
+            this.waypointBtn.Text = "Load Waypoints";
+            this.waypointBtn.UseVisualStyleBackColor = true;
+            this.waypointBtn.Click += new System.EventHandler(this.waypointBtn_Click);
             // 
             // armedLabel
             // 
@@ -559,6 +573,16 @@
             this.nestConnect.UseVisualStyleBackColor = true;
             this.nestConnect.Click += new System.EventHandler(this.nestConnect_Click);
             // 
+            // startMissionBtn
+            // 
+            this.startMissionBtn.Location = new System.Drawing.Point(289, 51);
+            this.startMissionBtn.Name = "startMissionBtn";
+            this.startMissionBtn.Size = new System.Drawing.Size(75, 39);
+            this.startMissionBtn.TabIndex = 21;
+            this.startMissionBtn.Text = "Start Mission";
+            this.startMissionBtn.UseVisualStyleBackColor = true;
+            this.startMissionBtn.Click += new System.EventHandler(this.startMissionBtn_Click);
+            // 
             // InitWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -627,6 +651,8 @@
         private System.Windows.Forms.TextBox yawSpdTb;
         private System.Windows.Forms.TextBox rollSpdTb;
         private System.Windows.Forms.Label speedDataLabel;
+        private System.Windows.Forms.Button waypointBtn;
+        private System.Windows.Forms.Button startMissionBtn;
     }
 }
 

@@ -106,7 +106,7 @@ namespace CommunicationsLayer
 
                 this.SendMessage(armMsg);
 
-                await Task.Delay(3000); //Need to give APM time to initialize
+                await Task.Delay(5000); //Need to give APM time to initialize
                 //Only needs to be done one time
 
                 UasCommandLong takeOff = new UasCommandLong()

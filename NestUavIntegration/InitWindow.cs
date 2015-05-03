@@ -20,6 +20,7 @@ namespace NestUavIntegration
     {
         private MavManager mav;
         private NestMavBridge bridge;
+        private WaypointBuffer wpHandler;
 
         private NestManager nestManager;
 
@@ -54,7 +55,8 @@ namespace NestUavIntegration
             this.mav.OnPacketReceived += this.onReceivedHeartbeat;
             this.mav.OnPacketReceived += this.onReceivedStatus;
             this.armButton.Enabled = true;
-            
+
+            this.wpHandler = new WaypointBuffer(mav);          
             this.createBridgeIfPossible();
         }
 
@@ -361,7 +363,29 @@ namespace NestUavIntegration
 
                     altitudeTb.Text = String.Format("{0:0.00##}", (position.RelativeAlt)/1000);
                 }
+                {
+                    UasMissionRequest request = (UasMissionRequest)pack.Message;
+
+                    infoBox.AppendText("Recived request for waypoint " + request.Seq + Environment.NewLine);
+                    //this.mav.sendWaypoint(latitudeTb.Text, longitudeTb.Text, true, request.Seq);
+                    wpHandler.sendWaypoint(request.Seq);
+                }
             } 
         }//End method onReceivedStatus
+
+        private void waypointBtn_Click(object sender, EventArgs e)
+        {
+            //this.mav.sendWaypoint(latitudeTb.Text,longitudeTb.Text,false,0);
+            wpHandler.PrepareWaypoints();
+        }
+
+        private async void startMissionBtn_Click(object sender, EventArgs e)
+        {
+
+            if (takeoff)
+            {
+                mav.SetAutoMode();
+            }
+        }
     }
 }
